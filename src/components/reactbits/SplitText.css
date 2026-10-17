@@ -1,0 +1,15 @@
+.split-parent {
+  display: inline-block;
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+.split-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.split-char {
+  display: inline-block;
+  will-change: transform, opacity;
+}

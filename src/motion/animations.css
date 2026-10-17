@@ -1,0 +1,420 @@
+/* ARTIFURA CINEMATIC MOTION & GOLDEN LIGHT ANIMATIONS */
+
+/* Interactive Gold Radial Spotlight */
+.gold-spotlight-container {
+  position: relative;
+}
+
+.gold-spotlight-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    480px circle at var(--spot-x, -999px) var(--spot-y, -999px),
+    rgba(245, 215, 110, var(--spot-opacity, 0)),
+    transparent 65%
+  );
+  z-index: 1;
+  transition: opacity 0.4s ease;
+}
+
+/* Gold Light Sweep Across Metallic Surfaces */
+@keyframes goldLightSweep {
+  0% {
+    transform: translateX(-100%) skewX(-20deg);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.65;
+  }
+  70% {
+    opacity: 0.65;
+  }
+  100% {
+    transform: translateX(220%) skewX(-20deg);
+    opacity: 0;
+  }
+}
+
+.gold-sweep-active {
+  position: relative;
+  overflow: hidden;
+}
+
+.gold-sweep-active::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(245, 215, 110, 0.45) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+  animation: goldLightSweep 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Metallic Sheen Across Brand Wordmark */
+@keyframes metallicWordmarkShine {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.wordmark-shine {
+  background: linear-gradient(
+    110deg,
+    #8C6A18 0%,
+    #D4AF37 25%,
+    #FFF6D1 50%,
+    #D4AF37 75%,
+    #8C6A18 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: metallicWordmarkShine 6s ease-in-out infinite;
+}
+
+/* Drifting Oversized Background Typography */
+@keyframes typographyDriftLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes typographyDriftRight {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.drift-text-slow {
+  display: flex;
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+  will-change: transform;
+  animation: typographyDriftLeft 45s linear infinite;
+}
+
+.drift-text-slow-reverse {
+  display: flex;
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+  will-change: transform;
+  animation: typographyDriftRight 55s linear infinite;
+}
+
+/* Subtle Breathing Pulse for Golden Badges & Highlights */
+@keyframes goldPulse {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
+    border-color: rgba(212, 175, 55, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(245, 215, 110, 0.55);
+    border-color: rgba(245, 215, 110, 0.8);
+  }
+}
+
+.gold-pulse {
+  animation: goldPulse 3s ease-in-out infinite;
+}
+
+/* Ambient Gold Light Orbit in Hero */
+@keyframes ambientGoldLight {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.12;
+  }
+  33% {
+    transform: translate(60px, -30px) scale(1.1);
+    opacity: 0.18;
+  }
+  66% {
+    transform: translate(-40px, 40px) scale(0.95);
+    opacity: 0.14;
+  }
+}
+
+.ambient-gold-orbit {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  animation: ambientGoldLight 14s ease-in-out infinite;
+}
+
+/* Golden Dividing Light Beam for Chapter 05 */
+@keyframes beamGlow {
+  0%, 100% {
+    opacity: 0.7;
+    filter: drop-shadow(0 0 8px rgba(245, 215, 110, 0.6));
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 18px rgba(245, 215, 110, 0.95));
+  }
+}
+
+.beam-pulse {
+  animation: beamGlow 2.5s ease-in-out infinite;
+}
+
+/* Golden Photon traveling along connection line in Chapter 05 */
+@keyframes photonTravel {
+  0% {
+    left: 0%;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+.connector-photon {
+  position: absolute;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  margin-top: -4px;
+  background: #FFF;
+  border-radius: 50%;
+  box-shadow: 0 0 12px 4px #F5D76E, 0 0 20px 8px rgba(212, 175, 55, 0.6);
+  animation: photonTravel 3.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  pointer-events: none;
+}
+
+/* Continuous Technology Ticker */
+@keyframes tickerMoveLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes tickerMoveRight {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.tech-ticker-row {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.ticker-left {
+  animation: tickerMoveLeft 28s linear infinite;
+}
+
+.ticker-right {
+  animation: tickerMoveRight 34s linear infinite;
+}
+
+.tech-ticker-container:hover .ticker-left,
+.tech-ticker-container:hover .ticker-right,
+.tech-ticker-container:focus-within .ticker-left,
+.tech-ticker-container:focus-within .ticker-right {
+  animation-play-state: paused;
+}
+
+/* Individual Tech Badge Hover Emphasis */
+.tech-badge-interactive {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.tech-badge-interactive:hover {
+  border-color: var(--gold-bright) !important;
+  color: #FFF !important;
+  background: rgba(212, 175, 55, 0.16) !important;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.35);
+  z-index: 10;
+}
+
+/* Category-Specific Image Hover Styles */
+
+/* 1. Main Comic Illustrations: overflow-clipped container, slight zoom, focal shift, thin metallic gold border, restrained gold light sweep */
+.comic-artwork-container {
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--gold-border);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.comic-artwork-container img {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+  will-change: transform;
+}
+
+.comic-artwork-container:hover {
+  border-color: var(--gold-bright);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.9), 0 0 30px rgba(212, 175, 55, 0.28);
+}
+
+.comic-artwork-container:hover img {
+  transform: scale(1.035) translateY(-4px);
+  filter: contrast(1.08) brightness(1.02);
+}
+
+.comic-artwork-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid transparent;
+  pointer-events: none;
+  transition: border-color 0.4s ease;
+}
+
+.comic-artwork-container:hover::after {
+  border-color: rgba(245, 215, 110, 0.45);
+}
+
+/* 2. Project and Product Screenshots: subtle perspective tilt, controlled zoom, strengthened gold outline, layered shadow */
+.screenshot-card-container {
+  position: relative;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s ease,
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  border: 1px solid var(--gold-border);
+  background: var(--bg-secondary);
+}
+
+.screenshot-card-container:hover {
+  border-color: var(--gold-bright);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 32px rgba(212, 175, 55, 0.25);
+}
+
+/* 3. Character Illustrations: gentle shift in lighting/glow, undistorted */
+.character-artwork-container {
+  position: relative;
+  overflow: hidden;
+  transition: filter 0.5s ease;
+}
+
+.character-artwork-container:hover {
+  filter: drop-shadow(0 0 24px rgba(212, 175, 55, 0.3));
+}
+
+/* Interactive Card & Panel Hover Micro-interactions */
+.interactive-panel {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s ease,
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, box-shadow;
+}
+
+.interactive-panel:hover {
+  transform: translateY(-4px) scale(1.005);
+  border-color: var(--gold-bright) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85), 0 0 25px rgba(212, 175, 55, 0.25) !important;
+}
+
+/* Animated Underline for Navigation Links */
+.nav-link-item {
+  position: relative;
+}
+
+.nav-link-item::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--gold-gradient);
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-link-item:hover::after,
+.nav-link-item.active::after {
+  width: 100%;
+}
+
+/* Progress Bar Shimmer */
+@keyframes progressShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.progress-bar-shimmer {
+  background: linear-gradient(
+    90deg,
+    #D4AF37 0%,
+    #FFF2B2 50%,
+    #D4AF37 100%
+  );
+  background-size: 200% 100%;
+  animation: progressShimmer 3s infinite linear;
+}
+
+/* Headline Reveal Masks */
+.clip-reveal-container {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+.clip-reveal-item {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* Reduced Motion Fallbacks */
+@media (prefers-reduced-motion: reduce) {
+  .gold-sweep-active::after,
+  .gold-pulse,
+  .beam-pulse,
+  .progress-bar-shimmer,
+  .drift-text-slow,
+  .drift-text-slow-reverse,
+  .wordmark-shine,
+  .ambient-gold-orbit,
+  .connector-photon,
+  .ticker-left,
+  .ticker-right {
+    animation: none !important;
+  }
+  .interactive-panel:hover,
+  .comic-artwork-container:hover img,
+  .tech-badge-interactive:hover {
+    transform: none !important;
+  }
+}

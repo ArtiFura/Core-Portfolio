@@ -1,0 +1,125 @@
+import { useState, useEffect } from 'react';
+import { HomePage } from './components/HomePage';
+import { CollegePage } from './components/CollegePage';
+import { CompaniesPage } from './components/CompaniesPage';
+import { scrollToTarget } from './motion/lenisManager';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
+export type AppPage = 'home' | 'colleges' | 'companies';
+
+function getInitialPage(): AppPage {
+  if (typeof window === 'undefined') return 'home';
+  const path = window.location.pathname.toLowerCase();
+  const hash = window.location.hash.toLowerCase();
+
+  if (path.startsWith('/companies') || hash === '#companies') {
+    return 'companies';
+  }
+  if (
+    path.startsWith('/colleges') ||
+    path.startsWith('/students') ||
+    hash === '#colleges' ||
+    hash === '#students'
+  ) {
+    return 'colleges';
+  }
+  return 'home';
+}
+
+function getPageTitle(page: AppPage): string {
+  switch (page) {
+    case 'companies':
+      return 'ARTIFURA for Companies — Discover Emerging Engineering Talent | Verifiable Proof';
+    case 'colleges':
+      return 'ARTIFURA for Colleges — Reimagining Academic Engineering | Verifiable Proof';
+    case 'home':
+    default:
+      return 'ARTIFURA LMS — The Verifiable Talent & Learning Infrastructure';
+  }
+}
+
+export function App() {
+  const [currentPage, setCurrentPage] = useState<AppPage>(getInitialPage);
+
+  useEffect(() => {
+    const handleLocationChange = () => {
+      const page = getInitialPage();
+      setCurrentPage(page);
+      document.title = getPageTitle(page);
+    };
+
+    window.addEventListener('popstate', handleLocationChange);
+    window.addEventListener('hashchange', handleLocationChange);
+
+    // Initial document title
+    document.title = getPageTitle(getInitialPage());
+
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange);
+      window.removeEventListener('hashchange', handleLocationChange);
+    };
+  }, []);
+
+  const handleNavigate = (page: AppPage, targetSection?: string) => {
+    // Clear and refresh any active ScrollTriggers before transitioning
+    ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+
+    setCurrentPage(page);
+
+    const isHeroTarget = targetSection === '#chapter-00' || targetSection === '#home-hero';
+    const hash = targetSection && !isHeroTarget ? targetSection : '';
+
+    if (page === 'companies') {
+      window.history.pushState(null, '', '/companies' + hash);
+    } else if (page === 'colleges') {
+      window.history.pushState(null, '', '/colleges' + hash);
+    } else {
+      window.history.pushState(null, '', '/' + hash);
+    }
+
+    document.title = getPageTitle(page);
+
+    if (targetSection && !isHeroTarget) {
+      setTimeout(() => {
+        scrollToTarget(targetSection, -60);
+      }, 150);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    // Refresh ScrollTrigger after DOM repaint
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 200);
+  };
+
+  if (currentPage === 'companies') {
+    return (
+      <CompaniesPage
+        onNavigatePage={handleNavigate}
+        onNavigateToStudents={(section) => handleNavigate('colleges', section)}
+      />
+    );
+  }
+
+  if (currentPage === 'colleges') {
+    return (
+      <CollegePage
+        onNavigatePage={handleNavigate}
+        onNavigateToCompanies={(section) => handleNavigate('companies', section)}
+        onNavigateToHome={() => handleNavigate('home')}
+      />
+    );
+  }
+
+  return (
+    <HomePage
+      onNavigatePage={handleNavigate}
+    />
+  );
+}
+
+export default App;

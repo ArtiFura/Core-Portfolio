@@ -1,0 +1,275 @@
+/* ARTIFURA — GOLDEN COMIC GRAPHIC NOVEL DESIGN SYSTEM */
+@import './motion/animations.css';
+
+:root {
+  --bg-obsidian: #080808;
+  --bg-secondary: #111111;
+  --bg-surface: #141414;
+  --bg-surface-elevated: #1a1a1a;
+
+  --gold-primary: #D4AF37;
+  --gold-bright: #F5D76E;
+  --gold-antique: #8C6A18;
+  --gold-subtle: rgba(212, 175, 55, 0.15);
+  --gold-border: rgba(212, 175, 55, 0.28);
+  --gold-border-bright: rgba(245, 215, 110, 0.6);
+  --gold-glow: rgba(212, 175, 55, 0.35);
+
+  --text-ivory: #F4EFE3;
+  --text-muted: #A5A5A5;
+  --text-dim: #666666;
+
+  --font-logo: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'Space Grotesk', 'Outfit', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --gold-gradient: linear-gradient(135deg, #FFF2B2 0%, #F5D76E 30%, #D4AF37 70%, #8C6A18 100%);
+  --gold-gradient-subtle: linear-gradient(180deg, rgba(212, 175, 55, 0.12) 0%, rgba(8, 8, 8, 0.8) 100%);
+  --panel-bevel: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+  --panel-bevel-sm: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-obsidian);
+  color: var(--text-ivory);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  overflow-x: hidden;
+  background-color: var(--bg-obsidian);
+  min-height: 100vh;
+  position: relative;
+  line-height: 1.6;
+}
+
+/* Custom Gold Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #080808;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #8C6A18;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #D4AF37;
+}
+
+/* Selection */
+::selection {
+  background: var(--gold-primary);
+  color: #080808;
+}
+
+/* Typography Utilities */
+.font-logo {
+  font-family: var(--font-logo);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.gold-gradient-text {
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+.gold-glow-subtle {
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+/* Halftone and Comic Texture Backgrounds */
+.halftone-overlay {
+  background-image: radial-gradient(rgba(212, 175, 55, 0.08) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+.speed-lines {
+  background: repeating-linear-gradient(90deg,
+      transparent,
+      transparent 40px,
+      rgba(212, 175, 55, 0.02) 40px,
+      rgba(212, 175, 55, 0.02) 41px);
+}
+
+/* Comic Panel Containers */
+.comic-frame {
+  background: var(--bg-secondary);
+  border: 1px solid var(--gold-border);
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+}
+
+.comic-frame:hover {
+  border-color: var(--gold-border-bright);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(212, 175, 55, 0.15);
+}
+
+.comic-frame-bevel {
+  clip-path: var(--panel-bevel);
+}
+
+.comic-frame-bevel-sm {
+  clip-path: var(--panel-bevel-sm);
+}
+
+/* Corner Accents */
+.comic-corner-accents::before,
+.comic-corner-accents::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.comic-corner-accents::before {
+  top: 0;
+  left: 0;
+  border-top: 2px solid var(--gold-bright);
+  border-left: 2px solid var(--gold-bright);
+}
+
+.comic-corner-accents::after {
+  bottom: 0;
+  right: 0;
+  border-bottom: 2px solid var(--gold-bright);
+  border-right: 2px solid var(--gold-bright);
+}
+
+/* Comic Speech & Caption Box */
+.comic-caption-box {
+  background: #101010;
+  border-left: 3px solid var(--gold-primary);
+  border-top: 1px solid var(--gold-border);
+  border-bottom: 1px solid var(--gold-border);
+  border-right: 1px solid var(--gold-border);
+  padding: 12px 18px;
+  position: relative;
+}
+
+.comic-speech-bubble {
+  background: #141414;
+  border: 1px solid var(--gold-primary);
+  border-radius: 4px;
+  padding: 10px 16px;
+  position: relative;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--text-ivory);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+}
+
+.comic-speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 24px;
+  border-width: 8px 8px 0;
+  border-style: solid;
+  border-color: var(--gold-primary) transparent transparent;
+}
+
+/* Buttons */
+.btn-gold-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--gold-gradient);
+  color: #080808;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 13px 26px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  clip-path: var(--panel-bevel-sm);
+  text-decoration: none;
+}
+
+.btn-gold-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4);
+  filter: brightness(1.1);
+}
+
+.btn-gold-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(17, 17, 17, 0.8);
+  color: var(--gold-bright);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 12px 24px;
+  border: 1px solid var(--gold-border);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  clip-path: var(--panel-bevel-sm);
+  text-decoration: none;
+}
+
+.btn-gold-secondary:hover {
+  border-color: var(--gold-bright);
+  background: rgba(212, 175, 55, 0.1);
+  color: #FFF;
+  transform: translateY(-2px);
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
