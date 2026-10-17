@@ -12,17 +12,27 @@ export type AppPage = 'home' | 'colleges' | 'companies';
 
 function getInitialPage(): AppPage {
   if (typeof window === 'undefined') return 'home';
-  const path = window.location.pathname.toLowerCase();
+  const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '').toLowerCase();
+  let path = window.location.pathname.toLowerCase();
+  if (base && path.startsWith(base)) {
+    path = path.slice(base.length);
+  }
   const hash = window.location.hash.toLowerCase();
 
-  if (path.startsWith('/companies') || hash === '#companies') {
+  if (
+    path.startsWith('/companies') ||
+    hash === '#companies' ||
+    hash.startsWith('#/companies')
+  ) {
     return 'companies';
   }
   if (
     path.startsWith('/colleges') ||
     path.startsWith('/students') ||
     hash === '#colleges' ||
-    hash === '#students'
+    hash === '#students' ||
+    hash.startsWith('#/colleges') ||
+    hash.startsWith('#/students')
   ) {
     return 'colleges';
   }
@@ -32,12 +42,12 @@ function getInitialPage(): AppPage {
 function getPageTitle(page: AppPage): string {
   switch (page) {
     case 'companies':
-      return 'ARTIFURA for Companies — Discover Emerging Engineering Talent | Verifiable Proof';
+      return 'ARTIFURA for Companies';
     case 'colleges':
-      return 'ARTIFURA for Colleges — Reimagining Academic Engineering | Verifiable Proof';
+      return 'ARTIFURA for Colleges';
     case 'home':
     default:
-      return 'ARTIFURA LMS — The Verifiable Talent & Learning Infrastructure';
+      return 'ARTIFURA';
   }
 }
 
@@ -72,12 +82,15 @@ export function App() {
     const isHeroTarget = targetSection === '#chapter-00' || targetSection === '#home-hero';
     const hash = targetSection && !isHeroTarget ? targetSection : '';
 
+    const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+    const prefix = base || '';
+
     if (page === 'companies') {
-      window.history.pushState(null, '', '/companies' + hash);
+      window.history.pushState(null, '', prefix + '/companies' + hash);
     } else if (page === 'colleges') {
-      window.history.pushState(null, '', '/colleges' + hash);
+      window.history.pushState(null, '', prefix + '/colleges' + hash);
     } else {
-      window.history.pushState(null, '', '/' + hash);
+      window.history.pushState(null, '', (prefix || '') + '/' + hash);
     }
 
     document.title = getPageTitle(page);

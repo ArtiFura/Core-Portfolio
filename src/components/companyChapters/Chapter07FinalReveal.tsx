@@ -12,6 +12,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { scrollToTarget } from '../../motion/lenisManager';
 import { useMagnetic } from '../../motion/useMagnetic';
 import { ArtifuraSymbol, ArtifuraLambdaGlyph } from '../ArtifuraIntro';
+import { getAssetUrl } from '../../utils/asset';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -332,7 +333,7 @@ export const Chapter07FinalReveal: React.FC<Chapter07FinalRevealProps> = ({
         >
           <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
             <img
-              src="/assets/comic/company_ch7_reveal.jpg"
+              src={getAssetUrl('/assets/comic/company_ch7_reveal.jpg')}
               alt="Manga climax showing tech leader and verified student engineer shaking hands in front of glowing golden city with verified candidate passports"
               style={{
                 width: '100%',

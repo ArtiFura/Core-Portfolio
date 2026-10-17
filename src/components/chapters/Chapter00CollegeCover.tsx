@@ -3,6 +3,7 @@ import { ArrowDown, GraduationCap, Code2, ShieldCheck, Cpu, ArrowUpRight } from 
 import { useMagnetic } from '../../motion/useMagnetic';
 import { useMouseSpotlight } from '../../motion/useMouseSpotlight';
 import { SplitText, BlurText, ShinyText, RotatingText } from '../reactbits';
+import { getAssetUrl } from '../../utils/asset';
 
 interface Chapter00CollegeCoverProps {
   onExploreStory: () => void;
@@ -248,7 +249,7 @@ export const Chapter00CollegeCover: React.FC<Chapter00CollegeCoverProps> = ({
         >
           <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
             <img
-              src="/assets/comic/college_hero_campus.jpg"
+              src={getAssetUrl('/assets/comic/college_hero_campus.jpg')}
               alt="Grand university amphitheater where students compile real code against automated benchmarks under the golden Artifura emblem"
               style={{
                 width: '100%',

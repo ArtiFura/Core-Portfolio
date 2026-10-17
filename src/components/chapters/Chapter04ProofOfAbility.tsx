@@ -12,6 +12,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useParallax } from '../../motion/useScrollReveal';
 import { use3DTilt } from '../../motion/use3DTilt';
 import { useContainerParallax } from '../../motion/useContainerParallax';
+import { getAssetUrl } from '../../utils/asset';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -279,7 +280,7 @@ export const Chapter04ProofOfAbility: React.FC = () => {
             <img
               ref={parallaxImgRef}
               className="dossier-artwork-layer"
-              src="/assets/comic/chapter4.jpg"
+              src={getAssetUrl('/assets/comic/chapter4.jpg')}
               alt="Verified developer portfolio showing technical milestone timeline and shareable passport"
               style={{
                 width: '100%',

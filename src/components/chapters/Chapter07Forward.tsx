@@ -13,6 +13,7 @@ import { useParallax } from '../../motion/useScrollReveal';
 import { scrollToTarget } from '../../motion/lenisManager';
 import { useMagnetic } from '../../motion/useMagnetic';
 import { ArtifuraSymbol, ArtifuraLambdaGlyph } from '../ArtifuraIntro';
+import { getAssetUrl } from '../../utils/asset';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -238,7 +239,7 @@ export const Chapter07Forward: React.FC<Chapter07ForwardProps> = ({
           <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
             <img
               ref={parallaxImgRef}
-              src="/assets/comic/chapter7.jpg"
+              src={getAssetUrl('/assets/comic/chapter7.jpg')}
               alt="Comic panels converging towards the golden horizon with ARTIFURA wordmark"
               style={{
                 width: '100%',

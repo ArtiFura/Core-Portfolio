@@ -4,7 +4,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { getAssetUrl } from '../../utils/asset';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -270,7 +270,7 @@ func (o *ChaosOperator) InjectNetworkDrop(pod *v1.Pod, dropPct int) error {
         >
           <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
             <img
-              src="/assets/comic/company_ch3_solution.jpg"
+              src={getAssetUrl('/assets/comic/company_ch3_solution.jpg')}
               alt="Tech lead and hiring manager reviewing holographic candidate telemetry with 48/48 passed test suites"
               style={{
                 width: '100%',

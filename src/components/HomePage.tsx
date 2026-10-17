@@ -18,6 +18,7 @@ import { ParticleCanvas } from './common/ParticleCanvas';
 import { GoldDivider } from './common/GoldDivider';
 import { ProjectModal } from './common/ProjectModal';
 import { ArtifuraSymbol } from './ArtifuraIntro';
+import { getAssetUrl } from '../utils/asset';
 import { initSmoothScroll, destroySmoothScroll } from '../motion/lenisManager';
 import { useMagnetic } from '../motion/useMagnetic';
 import { useMouseSpotlight } from '../motion/useMouseSpotlight';
@@ -352,7 +353,7 @@ export function HomePage({ onNavigatePage }: HomePageProps) {
                     }}
                   >
                     <img
-                      src="/assets/comic/college_hero_campus.jpg"
+                      src={getAssetUrl('/assets/comic/college_hero_campus.jpg')}
                       alt="Artifura College Academic Engineering Manga"
                       style={{
                         width: '100%',
@@ -511,7 +512,7 @@ export function HomePage({ onNavigatePage }: HomePageProps) {
                     }}
                   >
                     <img
-                      src="/assets/comic/company_hero.jpg"
+                      src={getAssetUrl('/assets/comic/company_hero.jpg')}
                       alt="Artifura Company Talent Search Manga"
                       style={{
                         width: '100%',

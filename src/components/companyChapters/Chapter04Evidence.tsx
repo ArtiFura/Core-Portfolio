@@ -8,6 +8,7 @@ import {
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { use3DTilt } from '../../motion/use3DTilt';
+import { getAssetUrl } from '../../utils/asset';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -212,7 +213,7 @@ export const Chapter04Evidence: React.FC = () => {
         >
           <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
             <img
-              src="/assets/comic/company_ch4_evidence.jpg"
+              src={getAssetUrl('/assets/comic/company_ch4_evidence.jpg')}
               alt="Tech lead examining interactive floating evidence displays: code execution terminal, benchmark latency graphs, git commit timeline, and cryptographic skill badges"
               style={{
                 width: '100%',

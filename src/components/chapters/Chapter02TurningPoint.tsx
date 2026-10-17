@@ -12,6 +12,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useParallax } from '../../motion/useScrollReveal';
 import { useMouseSpotlight } from '../../motion/useMouseSpotlight';
+import { getAssetUrl } from '../../utils/asset';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -210,7 +211,7 @@ export const Chapter02TurningPoint: React.FC = () => {
           <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
             <img
               ref={parallaxImgRef}
-              src="/assets/comic/chapter2.jpg"
+              src={getAssetUrl('/assets/comic/chapter2.jpg')}
               alt="Student connecting through glowing golden lines to a structured futuristic desktop LMS dashboard"
               style={{
                 width: '100%',
@@ -268,7 +269,7 @@ export const Chapter02TurningPoint: React.FC = () => {
         >
           <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
             <img
-              src="/assets/comic/college_ch2_architecture.jpg"
+              src={getAssetUrl('/assets/comic/college_ch2_architecture.jpg')}
               alt="4-Stage sequential manga flow showing student entering sandbox, compiler executing 50 edge-case tests, O(N log N) benchmarking, and cryptographic passport generation"
               style={{
                 width: '100%',

@@ -11,6 +11,7 @@ import {
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useParallax } from '../../motion/useScrollReveal';
+import { getAssetUrl } from '../../utils/asset';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -189,7 +190,7 @@ export const Chapter05Opportunity: React.FC = () => {
           <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
             <img
               ref={parallaxImgRef}
-              src="/assets/comic/chapter5.jpg"
+              src={getAssetUrl('/assets/comic/chapter5.jpg')}
               alt="Split-panel scene showing student authorizing skill profile and recruiter viewing verified candidate evidence"
               style={{
                 width: '100%',

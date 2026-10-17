@@ -7,6 +7,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useParallax } from '../../motion/useScrollReveal';
 import { useMagnetic } from '../../motion/useMagnetic';
+import { getAssetUrl } from '../../utils/asset';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -199,7 +200,7 @@ export const Chapter05Connection: React.FC<Chapter05ConnectionProps> = ({
           >
             <img
               ref={parallaxImgRef}
-              src="/assets/comic/company_ch5_pipeline.jpg"
+              src={getAssetUrl('/assets/comic/company_ch5_pipeline.jpg')}
               alt="Engineering director connecting directly with verified candidate after reviewing verified algorithms and test results"
               style={{
                 width: '100%',

@@ -62,12 +62,14 @@ export const StoryNavigation: React.FC<StoryNavigationProps> = ({
   const isCompanyMode = pageMode === 'companies';
   const isHomeMode = pageMode === 'home';
 
+  const basePrefix = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+
   // Focused 4-Link Navigation Bar: HOME, FOR COLLEGE, FOR COMPANIES, CONTACT
   const navLinks: NavLinkItem[] = [
     {
       id: 'home',
       name: 'HOME',
-      href: '/',
+      href: basePrefix ? `${basePrefix}/` : '/',
       isActive: isHomeMode,
       isPageSwitch: !isHomeMode,
       targetPage: 'home',
@@ -76,7 +78,7 @@ export const StoryNavigation: React.FC<StoryNavigationProps> = ({
     {
       id: 'college',
       name: 'FOR COLLEGE',
-      href: '/colleges',
+      href: `${basePrefix}/colleges`,
       isActive: isCollegeMode,
       isPageSwitch: !isCollegeMode,
       targetPage: 'colleges',
@@ -85,7 +87,7 @@ export const StoryNavigation: React.FC<StoryNavigationProps> = ({
     {
       id: 'companies',
       name: 'FOR COMPANIES',
-      href: '/companies',
+      href: `${basePrefix}/companies`,
       isActive: isCompanyMode,
       isPageSwitch: !isCompanyMode,
       targetPage: 'companies',
@@ -161,7 +163,7 @@ export const StoryNavigation: React.FC<StoryNavigationProps> = ({
         >
           {/* Brand Wordmark (Left) */}
           <a
-            href="/"
+            href={basePrefix ? `${basePrefix}/` : '/'}
             onClick={(e) => {
               e.preventDefault();
               if (onNavigatePage) {

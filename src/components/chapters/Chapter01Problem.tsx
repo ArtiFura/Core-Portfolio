@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useParallax } from '../../motion/useScrollReveal';
 import { use3DTilt } from '../../motion/use3DTilt';
 import { ScrollReveal, BlurText } from '../reactbits';
+import { getAssetUrl } from '../../utils/asset';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -299,7 +300,7 @@ export const Chapter01Problem: React.FC = () => {
           <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
             <img
               ref={parallaxImgRef}
-              src="/assets/comic/chapter1.jpg"
+              src={getAssetUrl('/assets/comic/chapter1.jpg')}
               alt="Three-panel comic scene showing student struggling with code tutorials before realizing real practice is needed"
               style={{
                 width: '100%',
@@ -495,7 +496,7 @@ export const Chapter01Problem: React.FC = () => {
               }}
             >
               <img
-                src="/assets/comic/ch1_trap.jpg"
+                src={getAssetUrl('/assets/comic/ch1_trap.jpg')}
                 alt="Panel A: The Passive Consumption Trap - Exhausted student drowning in endless video tutorials"
                 style={{
                   width: '100%',
@@ -595,7 +596,7 @@ export const Chapter01Problem: React.FC = () => {
               }}
             >
               <img
-                src="/assets/comic/ch1_logic.jpg"
+                src={getAssetUrl('/assets/comic/ch1_logic.jpg')}
                 alt="Panel B: The Logic Gap - Red terminal screens crashing with syntax errors"
                 style={{
                   width: '100%',
@@ -695,7 +696,7 @@ export const Chapter01Problem: React.FC = () => {
               }}
             >
               <img
-                src="/assets/comic/ch1_proof.jpg"
+                src={getAssetUrl('/assets/comic/ch1_proof.jpg')}
                 alt="Panel C: The Proof Dilemma - Recruiter discarding generic paper certificates"
                 style={{
                   width: '100%',

@@ -5,6 +5,7 @@ import { useMagnetic } from '../../motion/useMagnetic';
 import { useMouseSpotlight } from '../../motion/useMouseSpotlight';
 import { useContainerParallax } from '../../motion/useContainerParallax';
 import { ShinyText, BlurText, TextType } from '../reactbits';
+import { getAssetUrl } from '../../utils/asset';
 
 interface Chapter00SearchProps {
   onExploreStory: () => void;
@@ -304,7 +305,7 @@ export const Chapter00Search: React.FC<Chapter00SearchProps> = ({
           {/* Graphic Novel Artwork */}
           <div style={{ position: 'relative', aspectRatio: '16/9', overflow: 'hidden' }}>
             <img
-              src="/assets/comic/company_hero.jpg"
+              src={getAssetUrl('/assets/comic/company_hero.jpg')}
               alt="Recruiter in dark obsidian room surrounded by floating candidate profile holograms"
               style={{
                 width: '100%',

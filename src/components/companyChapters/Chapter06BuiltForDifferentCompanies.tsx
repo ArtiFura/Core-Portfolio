@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { getAssetUrl } from '../../utils/asset';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -187,7 +188,7 @@ export const Chapter06BuiltForDifferentCompanies: React.FC<Chapter06BuiltForDiff
         >
           <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
             <img
-              src="/assets/comic/company_ch6_multicompany.jpg"
+              src={getAssetUrl('/assets/comic/company_ch6_multicompany.jpg')}
               alt="Three-panel manga strip showing how startups, scale-ups, and enterprises all benefit from verified candidate proof"
               style={{
                 width: '100%',

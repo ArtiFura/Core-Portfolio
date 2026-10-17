@@ -12,6 +12,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useParallax } from '../../motion/useScrollReveal';
 import { useMouseSpotlight } from '../../motion/useMouseSpotlight';
+import { getAssetUrl } from '../../utils/asset';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -273,7 +274,7 @@ export const Chapter06BuiltToScale: React.FC = () => {
           <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
             <img
               ref={parallaxImgRef}
-              src="/assets/comic/chapter6.jpg"
+              src={getAssetUrl('/assets/comic/chapter6.jpg')}
               alt="Connected technology ecosystem blueprint showing learning engines, assessment compilers, and institutional intelligence hubs"
               style={{
                 width: '100%',

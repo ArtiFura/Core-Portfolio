@@ -9,6 +9,7 @@ import {
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useParallax } from '../../motion/useScrollReveal';
+import { getAssetUrl } from '../../utils/asset';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -284,7 +285,7 @@ export const Chapter01Problem: React.FC = () => {
           >
             <img
               ref={parallaxImgRef}
-              src="/assets/comic/company_ch1_problem.jpg"
+              src={getAssetUrl('/assets/comic/company_ch1_problem.jpg')}
               alt="Tired recruiter sitting before a desk and monitors overflowing with identical resumes"
               style={{
                 width: '100%',

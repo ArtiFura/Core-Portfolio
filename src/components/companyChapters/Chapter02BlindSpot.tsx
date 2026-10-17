@@ -6,6 +6,7 @@ import {
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useParallax } from '../../motion/useScrollReveal';
+import { getAssetUrl } from '../../utils/asset';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -234,7 +235,7 @@ export const Chapter02BlindSpot: React.FC = () => {
           >
             <img
               ref={parallaxImgRef}
-              src="/assets/comic/company_ch2_blindspot.jpg"
+              src={getAssetUrl('/assets/comic/company_ch2_blindspot.jpg')}
               alt="Split composition: Recruiter filtering paper files on the left, capable student building code surrounded by glowing monitors on the right"
               style={{
                 width: '100%',

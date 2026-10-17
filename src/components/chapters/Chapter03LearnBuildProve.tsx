@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { getAssetUrl } from '../../utils/asset';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -205,7 +206,7 @@ export const Chapter03LearnBuildProve: React.FC = () => {
             {/* Artwork Frame with Category Hover Style */}
             <div className="comic-artwork-container" style={{ position: 'relative', width: '100%', aspectRatio: '4/3', overflow: 'hidden' }}>
               <img
-                src="/assets/comic/chapter3_learn.jpg"
+                src={getAssetUrl('/assets/comic/chapter3_learn.jpg')}
                 alt="Student exploring a structured programming lesson"
                 style={{
                   width: '100%',
@@ -338,7 +339,7 @@ export const Chapter03LearnBuildProve: React.FC = () => {
             {/* Artwork Frame with Category Hover Style */}
             <div className="comic-artwork-container" style={{ position: 'relative', width: '100%', aspectRatio: '4/3', overflow: 'hidden' }}>
               <img
-                src="/assets/comic/chapter3_practice.jpg"
+                src={getAssetUrl('/assets/comic/chapter3_practice.jpg')}
                 alt="Student writing code and testing ideas"
                 style={{
                   width: '100%',
@@ -487,7 +488,7 @@ export const Chapter03LearnBuildProve: React.FC = () => {
             {/* Artwork Frame with Category Hover Style */}
             <div className="comic-artwork-container" style={{ position: 'relative', width: '100%', aspectRatio: '4/3', overflow: 'hidden' }}>
               <img
-                src="/assets/comic/chapter3_prove.jpg"
+                src={getAssetUrl('/assets/comic/chapter3_prove.jpg')}
                 alt="Student completes assessment and reviews glowing golden verified skill scorecard"
                 style={{
                   width: '100%',
