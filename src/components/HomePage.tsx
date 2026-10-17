@@ -259,7 +259,6 @@ export function HomePage({ onNavigatePage }: HomePageProps) {
                 />
               </span>
               <span
-                className="gold-gradient-text"
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -278,8 +277,7 @@ export function HomePage({ onNavigatePage }: HomePageProps) {
                   splitBy="words"
                   effect="flip"
                   direction="up"
-                  rotationInterval={3000}
-                  staggerDuration={0.03}
+                  rotationInterval={3200}
                   highlight={false}
                   mainClassName="gold-gradient-text"
                 />

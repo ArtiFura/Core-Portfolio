@@ -88,40 +88,46 @@ interface EffectPreset {
 
 const LAYOUT_SPRING: Transition = { type: 'spring', damping: 25, stiffness: 300 };
 const WIDTH_SPRING: Transition = { type: 'spring', damping: 34, stiffness: 320 };
-const FLIP_STYLE: React.CSSProperties = { transformOrigin: '50% 50% -0.45em', backfaceVisibility: 'hidden' };
+const FLIP_STYLE: React.CSSProperties = {
+  transformOrigin: '50% 50% -0.45em',
+  backfaceVisibility: 'hidden',
+  transformStyle: 'preserve-3d',
+};
 
 const EFFECTS: Record<RotatingTextEffect, (up: boolean) => EffectPreset> = {
   slide: up => ({
     initial: { y: up ? '100%' : '-100%', opacity: 0 },
     animate: { y: 0, opacity: 1 },
-    exit: { y: up ? '-120%' : '120%', opacity: 0 },
-    transition: { type: 'spring', damping: 25, stiffness: 300 }
+    exit: { y: up ? '-100%' : '100%', opacity: 0 },
+    transition: { type: 'tween', duration: 0.38, ease: [0.16, 1, 0.3, 1] },
+    exitTransition: { type: 'tween', duration: 0.24, ease: [0.65, 0, 0.85, 0] }
   }),
   flip: up => ({
-    initial: { rotateX: up ? -85 : 85, opacity: 0, transformPerspective: 600 },
-    animate: { rotateX: 0, opacity: 1, transformPerspective: 600 },
-    exit: { rotateX: up ? 85 : -85, opacity: 0, transformPerspective: 600 },
-    transition: { type: 'tween', duration: 0.42, ease: [0.16, 1, 0.3, 1] },
-    exitTransition: { type: 'tween', duration: 0.25, ease: [0.65, 0, 0.85, 0] }
+    initial: { rotateX: up ? -90 : 90, opacity: 0, y: up ? 10 : -10, transformPerspective: 800 },
+    animate: { rotateX: 0, opacity: 1, y: 0, transformPerspective: 800 },
+    exit: { rotateX: up ? 90 : -90, opacity: 0, y: up ? -10 : 10, transformPerspective: 800 },
+    transition: { type: 'tween', duration: 0.38, ease: [0.16, 1, 0.3, 1] },
+    exitTransition: { type: 'tween', duration: 0.24, ease: [0.65, 0, 0.85, 0] }
   }),
   blur: up => ({
     initial: { y: up ? '45%' : '-45%', opacity: 0 },
     animate: { y: 0, opacity: 1 },
     exit: { y: up ? '-45%' : '45%', opacity: 0 },
-    transition: { type: 'tween', duration: 0.55, ease: [0.22, 1, 0.36, 1] }
+    transition: { type: 'tween', duration: 0.45, ease: [0.22, 1, 0.36, 1] },
+    exitTransition: { type: 'tween', duration: 0.25, ease: [0.65, 0, 0.85, 0] }
   }),
   scale: up => ({
     initial: { scale: up ? 0.35 : 1.7, opacity: 0 },
     animate: { scale: 1, opacity: 1 },
     exit: { scale: up ? 1.7 : 0.35, opacity: 0 },
-    transition: { type: 'spring', damping: 17, stiffness: 240 }
+    transition: { type: 'spring', damping: 20, stiffness: 280 }
   }),
   drop: () => ({
     initial: { y: '-110%', opacity: 0 },
     animate: { y: 0, opacity: 1 },
     exit: { y: '110%', opacity: 0 },
     transition: { type: 'spring', damping: 18, stiffness: 320, mass: 0.9 },
-    exitTransition: { type: 'tween', duration: 0.3, ease: [0.55, 0, 1, 0.45] }
+    exitTransition: { type: 'tween', duration: 0.25, ease: [0.55, 0, 1, 0.45] }
   })
 };
 
@@ -158,8 +164,8 @@ export const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>((prop
     animatePresenceMode = 'wait',
     animatePresenceInitial = false,
     rotationInterval = 2400,
-    staggerDuration = 0.02,
-    staggerFrom = 'first',
+    staggerDuration: _staggerDuration = 0.02,
+    staggerFrom: _staggerFrom = 'first',
     loop = true,
     auto = true,
     pauseOnHover = false,
@@ -215,21 +221,6 @@ export const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>((prop
       needsSpace: i !== arr.length - 1
     }));
   }, [texts, activeIndex, splitBy]);
-
-  const order = useMemo(() => {
-    const total = elements.reduce((sum, word) => sum + word.characters.length, 0);
-    const shuffled = Array.from({ length: total }, (_, i) => i).sort(() => Math.random() - 0.5);
-    return { total, shuffled };
-  }, [elements]);
-
-  const getStaggerDelay = (index: number): number => {
-    const { total, shuffled } = order;
-    if (staggerFrom === 'first') return index * staggerDuration;
-    if (staggerFrom === 'last') return (total - 1 - index) * staggerDuration;
-    if (staggerFrom === 'center') return Math.abs(Math.floor(total / 2) - index) * staggerDuration;
-    if (staggerFrom === 'random') return shuffled[index] * staggerDuration;
-    return Math.abs((staggerFrom as number) - index) * staggerDuration;
-  };
 
   const goTo = useCallback((index: number) => {
     if (index === indexRef.current) return;
@@ -328,35 +319,33 @@ export const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>((prop
     <AnimatePresence mode={animatePresenceMode as any} initial={animatePresenceInitial}>
       <motion.span
         key={activeIndex}
-        className={cn(splitBy === 'lines' ? 'text-rotate-lines' : 'text-rotate')}
+        initial={enterFrom}
+        animate={enterTo}
+        exit={
+          exitTransition ? { ...(leaveTo as Target), transition: exitTransition } : leaveTo
+        }
+        transition={charTransition}
+        className={cn(splitBy === 'lines' ? 'text-rotate-lines' : 'text-rotate-phrase', mainClassName)}
+        style={charStyle}
         aria-hidden="true"
       >
-        {elements.map((wordObj, wordIndex, array) => {
-          const previousCharsCount = array.slice(0, wordIndex).reduce((sum, word) => sum + word.characters.length, 0);
-          return (
-            <span key={wordIndex} className={cn('text-rotate-word', splitLevelClassName)}>
-              {wordObj.characters.map((char, charIndex) => {
-                const delay = getStaggerDelay(previousCharsCount + charIndex);
-                return (
-                  <motion.span
+        {elements.map((wordObj, wordIndex) => (
+          <span
+            key={wordIndex}
+            className={cn('text-rotate-word', splitLevelClassName)}
+          >
+            {splitBy === 'characters'
+              ? wordObj.characters.map((char, charIndex) => (
+                  <span
                     key={charIndex}
-                    initial={enterFrom}
-                    animate={enterTo}
-                    exit={
-                      exitTransition ? { ...(leaveTo as Target), transition: { ...exitTransition, delay } } : leaveTo
-                    }
-                    transition={{ ...charTransition, delay }}
                     className={cn('text-rotate-element', elementLevelClassName)}
-                    style={charStyle}
                   >
                     {char}
-                  </motion.span>
-                );
-              })}
-              {wordObj.needsSpace && <span className="text-rotate-space"> </span>}
-            </span>
-          );
-        })}
+                  </span>
+                ))
+              : wordObj.characters.join('')}
+          </span>
+        ))}
       </motion.span>
     </AnimatePresence>
   );
@@ -364,7 +353,7 @@ export const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>((prop
   return (
     <MotionConfig reducedMotion="user">
       <motion.span
-        className={cn('text-rotate', highlight && 'text-rotate-highlight', mainClassName)}
+        className={cn('text-rotate', highlight && 'text-rotate-highlight')}
         {...rest}
         style={blockStyle}
         onMouseEnter={handleMouseEnter}

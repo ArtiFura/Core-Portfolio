@@ -1,11 +1,23 @@
 .text-rotate {
   display: inline-flex;
-  flex-wrap: wrap;
-  white-space: pre-wrap;
   position: relative;
   vertical-align: baseline;
   justify-content: center;
+  align-items: center;
   text-align: center;
+  width: 100%;
+}
+
+.text-rotate-phrase {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  column-gap: 0.28em;
+  row-gap: 0.1em;
+  width: 100%;
+  will-change: transform, opacity;
 }
 
 .text-rotate-sr-only {

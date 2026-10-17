@@ -202,7 +202,7 @@ export const Chapter00CollegeCover: React.FC<Chapter00CollegeCoverProps> = ({
           <span style={{ display: 'block', marginBottom: '8px' }}>
             <SplitText text="TURNING CURRICULUM INTO" effect="rise" delay={30} tag="span" style={{ display: 'inline-block' }} />
           </span>
-          <span className="gold-gradient-text" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '1.25em', width: '100%' }}>
+          <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '1.25em', width: '100%' }}>
             <RotatingText
               texts={[
                 'VERIFIABLE CODE PROOF.',
@@ -213,8 +213,7 @@ export const Chapter00CollegeCover: React.FC<Chapter00CollegeCoverProps> = ({
               splitBy="words"
               effect="flip"
               direction="up"
-              rotationInterval={3000}
-              staggerDuration={0.03}
+              rotationInterval={3200}
               highlight={false}
               mainClassName="gold-gradient-text"
             />
