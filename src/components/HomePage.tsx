@@ -158,7 +158,7 @@ export function HomePage({ onNavigatePage }: HomePageProps) {
           <div
             style={{
               position: 'absolute',
-              top: '40px',
+              top: '96px',
               left: '32px',
               fontFamily: 'var(--font-mono)',
               fontSize: '10.5px',
@@ -178,7 +178,7 @@ export function HomePage({ onNavigatePage }: HomePageProps) {
           <div
             style={{
               position: 'absolute',
-              top: '40px',
+              top: '96px',
               right: '32px',
               fontFamily: 'var(--font-mono)',
               fontSize: '10.5px',
@@ -237,44 +237,49 @@ export function HomePage({ onNavigatePage }: HomePageProps) {
             <h1
               style={{
                 fontFamily: 'var(--font-display, "Space Grotesk", sans-serif)',
-                fontSize: 'clamp(2.4rem, 5.8vw, 4.6rem)',
+                fontSize: 'clamp(2.1rem, 4.8vw, 4.2rem)',
                 fontWeight: 800,
-                lineHeight: 1.08,
+                lineHeight: 1.15,
                 letterSpacing: '-0.025em',
                 color: 'var(--text-ivory)',
-                margin: '0 0 20px',
+                margin: '0 auto 20px',
+                maxWidth: '980px',
                 textTransform: 'uppercase',
+                textAlign: 'center',
               }}
             >
-              <SplitText
-                text="ONE VERIFIABLE LMS."
-                effect="rise"
-                delay={35}
-                duration={0.9}
-                tag="span"
-                style={{ display: 'inline-block' }}
-              />
-              <br />
+              <span style={{ display: 'block', marginBottom: '8px' }}>
+                <SplitText
+                  text="ONE VERIFIABLE LMS."
+                  effect="rise"
+                  delay={35}
+                  duration={0.9}
+                  tag="span"
+                  style={{ display: 'inline-block' }}
+                />
+              </span>
               <span
                 className="gold-gradient-text"
                 style={{
-                  display: 'inline-flex',
+                  display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  minHeight: '1.2em',
+                  minHeight: '1.25em',
+                  width: '100%',
                 }}
               >
                 <RotatingText
                   texts={[
-                    'TWO SIDES OF ENGINEERING EXCELLENCE.',
-                    'CRYPTOGRAPHIC PROOFS OVER RESUMES.',
-                    'CONTINUOUS AUTOMATED SANDBOXES.',
-                    'VERIFIED CODE CAPABILITY.',
+                    'PROVEN CODE OVER RESUMES.',
+                    'CONTINUOUS TEST SANDBOXES.',
+                    'CRYPTOGRAPHIC PROOFS OF CODE.',
+                    'TWO SIDES OF ONE PLATFORM.',
                   ]}
+                  splitBy="words"
                   effect="flip"
                   direction="up"
-                  rotationInterval={2800}
-                  staggerDuration={0.02}
+                  rotationInterval={3000}
+                  staggerDuration={0.03}
                   highlight={false}
                   mainClassName="gold-gradient-text"
                 />

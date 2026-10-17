@@ -4,6 +4,8 @@
   white-space: pre-wrap;
   position: relative;
   vertical-align: baseline;
+  justify-content: center;
+  text-align: center;
 }
 
 .text-rotate-sr-only {
@@ -20,16 +22,20 @@
 
 .text-rotate-word {
   display: inline-flex;
+  white-space: nowrap;
 }
 
 .text-rotate-lines {
   display: flex;
   flex-direction: column;
   width: 100%;
+  align-items: center;
+  text-align: center;
 }
 
 .text-rotate-element {
   display: inline-block;
+  will-change: transform, opacity;
 }
 
 .text-rotate-space {

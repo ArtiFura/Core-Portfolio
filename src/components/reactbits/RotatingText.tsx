@@ -98,11 +98,11 @@ const EFFECTS: Record<RotatingTextEffect, (up: boolean) => EffectPreset> = {
     transition: { type: 'spring', damping: 25, stiffness: 300 }
   }),
   flip: up => ({
-    initial: { rotateX: up ? -90 : 90, opacity: 0, transformPerspective: 480 },
-    animate: { rotateX: 0, opacity: 1, transformPerspective: 480 },
-    exit: { rotateX: up ? 90 : -90, opacity: 0, transformPerspective: 480 },
-    transition: { type: 'tween', duration: 0.6, ease: [0.34, 1.4, 0.64, 1] },
-    exitTransition: { type: 'tween', duration: 0.32, ease: [0.5, 0, 0.75, 0] }
+    initial: { rotateX: up ? -85 : 85, opacity: 0, transformPerspective: 600 },
+    animate: { rotateX: 0, opacity: 1, transformPerspective: 600 },
+    exit: { rotateX: up ? 85 : -85, opacity: 0, transformPerspective: 600 },
+    transition: { type: 'tween', duration: 0.42, ease: [0.16, 1, 0.3, 1] },
+    exitTransition: { type: 'tween', duration: 0.25, ease: [0.65, 0, 0.85, 0] }
   }),
   blur: up => ({
     initial: { y: up ? '45%' : '-45%', opacity: 0 },
@@ -329,7 +329,6 @@ export const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>((prop
       <motion.span
         key={activeIndex}
         className={cn(splitBy === 'lines' ? 'text-rotate-lines' : 'text-rotate')}
-        layout={!highlight}
         aria-hidden="true"
       >
         {elements.map((wordObj, wordIndex, array) => {
@@ -370,7 +369,6 @@ export const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>((prop
         style={blockStyle}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        layout={!highlight}
         transition={transition ?? LAYOUT_SPRING}
       >
         <span className="text-rotate-sr-only">{texts[activeIndex]}</span>
