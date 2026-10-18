@@ -6,6 +6,7 @@ import {
   ArrowUpRight,
   Mail,
   ChevronUp,
+  Maximize2,
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -14,6 +15,7 @@ import { scrollToTarget } from '../../motion/lenisManager';
 import { useMagnetic } from '../../motion/useMagnetic';
 import { ArtifuraSymbol, ArtifuraLambdaGlyph } from '../ArtifuraIntro';
 import { getAssetUrl } from '../../utils/asset';
+import { useComicLightbox } from '../common/ComicLightboxContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,6 +26,7 @@ interface Chapter07ForwardProps {
 export const Chapter07Forward: React.FC<Chapter07ForwardProps> = ({
   onOpenProjectModal,
 }) => {
+  const { openLightbox } = useComicLightbox();
   const currentYear = new Date().getFullYear();
   const sectionRef = useRef<HTMLElement | null>(null);
   const headerRef = useRef<HTMLDivElement | null>(null);
@@ -236,7 +239,19 @@ export const Chapter07Forward: React.FC<Chapter07ForwardProps> = ({
         >
 
 
-          <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
+          <div
+            className="comic-art-wrapper"
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              openLightbox({
+                src: getAssetUrl('/assets/comic/chapter7.jpg'),
+                alt: 'Comic panels converging towards the golden horizon with ARTIFURA wordmark',
+                title: 'Chapter 07 // Forward',
+                chapterTag: 'CHRONICLE 07 // HORIZON CONVERGENCE',
+                dialogue: '“The ecosystem connects institutions, students, and companies into an undeniable, verified pipeline of technical talent.”',
+              });
+            }}
+          >
             <img
               ref={parallaxImgRef}
               src={getAssetUrl('/assets/comic/chapter7.jpg')}
@@ -250,6 +265,22 @@ export const Chapter07Forward: React.FC<Chapter07ForwardProps> = ({
               }}
               loading="lazy"
             />
+            <div
+              className="comic-zoom-pill"
+              onClick={(e) => {
+                e.stopPropagation();
+                openLightbox({
+                  src: getAssetUrl('/assets/comic/chapter7.jpg'),
+                  alt: 'Comic panels converging towards the golden horizon with ARTIFURA wordmark',
+                  title: 'Chapter 07 // Forward',
+                  chapterTag: 'CHRONICLE 07 // HORIZON CONVERGENCE',
+                  dialogue: '“The ecosystem connects institutions, students, and companies into an undeniable, verified pipeline of technical talent.”',
+                });
+              }}
+            >
+              <Maximize2 size={11} />
+              <span>TAP TO ZOOM</span>
+            </div>
             <div
               style={{
                 position: 'absolute',

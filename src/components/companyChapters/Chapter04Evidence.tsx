@@ -4,15 +4,18 @@ import {
   FolderGit2,
   TrendingUp,
   Activity,
+  Maximize2,
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { use3DTilt } from '../../motion/use3DTilt';
 import { getAssetUrl } from '../../utils/asset';
+import { useComicLightbox } from '../common/ComicLightboxContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const Chapter04Evidence: React.FC = () => {
+  const { openLightbox } = useComicLightbox();
   const [activeEvidenceScene, setActiveEvidenceScene] = useState<'skills' | 'projects' | 'progress'>('skills');
   const [expandedProject, setExpandedProject] = useState<number | null>(0);
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -211,19 +214,28 @@ export const Chapter04Evidence: React.FC = () => {
             boxShadow: '0 25px 70px rgba(0, 0, 0, 0.95), 0 0 45px rgba(212, 175, 55, 0.18)',
           }}
         >
-          <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
-            <img
-              src={getAssetUrl('/assets/comic/company_ch4_evidence.jpg')}
-              alt="Tech lead examining interactive floating evidence displays: code execution terminal, benchmark latency graphs, git commit timeline, and cryptographic skill badges"
+          {/* Badges: Split in corners on desktop, clean header bar on mobile */}
+          <div className="comic-mobile-header-bar">
+            {/* Manga Caption Box */}
+            <div
+              className="comic-caption-box"
               style={{
-                width: '100%',
-                height: '106%',
-                objectFit: 'cover',
-                display: 'block',
-                transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+                position: 'absolute',
+                top: '18px',
+                left: '20px',
+                zIndex: 6,
+                background: 'rgba(12, 12, 12, 0.92)',
+                border: '1px solid var(--gold-bright)',
+                padding: '6px 14px',
+                color: 'var(--gold-bright)',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.72rem',
+                fontWeight: 700,
+                letterSpacing: '0.12em',
               }}
-              loading="lazy"
-            />
+            >
+              CHRONICLE 04 // THE EVIDENCE VAULT
+            </div>
 
             {/* In-Scene Interactive Floating Audit Signal */}
             <div
@@ -262,26 +274,48 @@ export const Chapter04Evidence: React.FC = () => {
                 PROVEN ATTESTATION: VERIFIED [GIT + TESTS]
               </span>
             </div>
+          </div>
 
-            {/* Manga Caption Box */}
-            <div
-              className="comic-caption-box"
+          <div
+            className="comic-art-wrapper"
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              openLightbox({
+                src: getAssetUrl('/assets/comic/company_ch4_evidence.jpg'),
+                alt: 'Tech lead examining interactive floating evidence displays: code execution terminal, benchmark latency graphs, git commit timeline, and cryptographic skill badges',
+                title: 'Chapter 04 // The Evidence Vault',
+                chapterTag: 'CHRONICLE 04 // EVIDENCE VAULT',
+                dialogue: '“Candidate code execution logs, git commit histories, and benchmark latency graphs prove engineering capability before the first conversation.”',
+              });
+            }}
+          >
+            <img
+              src={getAssetUrl('/assets/comic/company_ch4_evidence.jpg')}
+              alt="Tech lead examining interactive floating evidence displays: code execution terminal, benchmark latency graphs, git commit timeline, and cryptographic skill badges"
               style={{
-                position: 'absolute',
-                top: '18px',
-                left: '20px',
-                zIndex: 6,
-                background: 'rgba(12, 12, 12, 0.92)',
-                border: '1px solid var(--gold-bright)',
-                padding: '6px 14px',
-                color: 'var(--gold-bright)',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.72rem',
-                fontWeight: 700,
-                letterSpacing: '0.12em',
+                width: '100%',
+                height: '106%',
+                objectFit: 'cover',
+                display: 'block',
+                transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+              }}
+              loading="lazy"
+            />
+            <div
+              className="comic-zoom-pill"
+              onClick={(e) => {
+                e.stopPropagation();
+                openLightbox({
+                  src: getAssetUrl('/assets/comic/company_ch4_evidence.jpg'),
+                  alt: 'Tech lead examining interactive floating evidence displays: code execution terminal, benchmark latency graphs, git commit timeline, and cryptographic skill badges',
+                  title: 'Chapter 04 // The Evidence Vault',
+                  chapterTag: 'CHRONICLE 04 // EVIDENCE VAULT',
+                  dialogue: '“Candidate code execution logs, git commit histories, and benchmark latency graphs prove engineering capability before the first conversation.”',
+                });
               }}
             >
-              CHRONICLE 04 // THE EVIDENCE VAULT
+              <Maximize2 size={13} />
+              <span>TAP TO EXPAND & ZOOM</span>
             </div>
           </div>
         </div>

@@ -60,12 +60,37 @@ const clamp = (value: number, min: number, max: number) => Math.min(max, Math.ma
 
 let paint: CanvasRenderingContext2D | null = null;
 
+const resolveCssColor = (val: string): string => {
+  if (typeof document === 'undefined') return val;
+  const str = (val || '').trim();
+  if (str.startsWith('var(')) {
+    const varName = str.slice(4, -1).trim();
+    const computed = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+    if (computed) return computed;
+    const fallbacks: Record<string, string> = {
+      '--gold-bright': '#F5D76E',
+      '--gold-primary': '#D4AF37',
+      '--gold-antique': '#8C6A18',
+      '--text-ivory': '#F4EFE3',
+      '--text-muted': '#A5A5A5',
+      '--text-dim': '#666666',
+    };
+    if (fallbacks[varName]) return fallbacks[varName];
+  }
+  return str;
+};
+
 const parseColor = (value: string): number[] | null => {
   if (typeof document === 'undefined') return null;
+  const resolvedValue = resolveCssColor(value);
   if (!paint) paint = document.createElement('canvas').getContext('2d');
   if (!paint) return null;
-  paint.fillStyle = '#000000';
-  paint.fillStyle = value;
+  paint.fillStyle = '#123456';
+  paint.fillStyle = resolvedValue;
+  if (paint.fillStyle === '#123456' && resolvedValue !== '#123456') {
+    // If canvas failed to parse the color, default to gold bright
+    return [245, 215, 110, 1];
+  }
   const resolved = String(paint.fillStyle);
   if (resolved.startsWith('#')) {
     return [1, 3, 5].map(i => parseInt(resolved.slice(i, i + 2), 16)).concat(1);

@@ -1,9 +1,10 @@
 import React, { useRef } from 'react';
-import { ArrowDown, GraduationCap, Code2, ShieldCheck, Cpu, ArrowUpRight } from 'lucide-react';
+import { ArrowDown, GraduationCap, Code2, ShieldCheck, Cpu, ArrowUpRight, Maximize2 } from 'lucide-react';
 import { useMagnetic } from '../../motion/useMagnetic';
 import { useMouseSpotlight } from '../../motion/useMouseSpotlight';
 import { SplitText, BlurText, ShinyText, RotatingText } from '../reactbits';
 import { getAssetUrl } from '../../utils/asset';
+import { useComicLightbox } from '../common/ComicLightboxContext';
 
 interface Chapter00CollegeCoverProps {
   onExploreStory: () => void;
@@ -14,6 +15,7 @@ export const Chapter00CollegeCover: React.FC<Chapter00CollegeCoverProps> = ({
   onExploreStory,
   onOpenProjectModal,
 }) => {
+  const { openLightbox } = useComicLightbox();
   const containerRef = useRef<HTMLElement | null>(null);
   const exploreBtnRef = useMagnetic<HTMLButtonElement>({ strength: 0.22, maxDistance: 10 });
   const modalBtnRef = useMagnetic<HTMLButtonElement>({ strength: 0.2, maxDistance: 8 });
@@ -251,19 +253,28 @@ export const Chapter00CollegeCover: React.FC<Chapter00CollegeCoverProps> = ({
             boxShadow: '0 25px 70px rgba(0, 0, 0, 0.95), 0 0 45px rgba(212, 175, 55, 0.2)',
           }}
         >
-          <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
-            <img
-              src={getAssetUrl('/assets/comic/college_hero_campus.jpg')}
-              alt="Grand university amphitheater where students compile real code against automated benchmarks under the golden Artifura emblem"
+          {/* Manga Badges: Split into top corners on desktop, responsive bar on mobile */}
+          <div className="comic-mobile-header-bar">
+            {/* Manga Caption Box */}
+            <div
+              className="comic-caption-box"
               style={{
-                width: '100%',
-                height: '105%',
-                objectFit: 'cover',
-                display: 'block',
-                transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+                position: 'absolute',
+                top: '18px',
+                left: '20px',
+                zIndex: 6,
+                background: 'rgba(12, 12, 12, 0.92)',
+                border: '1px solid var(--gold-bright)',
+                padding: '6px 14px',
+                color: 'var(--gold-bright)',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.72rem',
+                fontWeight: 700,
+                letterSpacing: '0.12em',
               }}
-              loading="eager"
-            />
+            >
+              PROLOGUE // THE CAMPUS RENAISSANCE
+            </div>
 
             {/* Manga In-Scene Reticle & Live Badge */}
             <div
@@ -302,26 +313,50 @@ export const Chapter00CollegeCover: React.FC<Chapter00CollegeCoverProps> = ({
                 AUTORUNNER: ACTIVE [48/48 TESTS PASS]
               </span>
             </div>
+          </div>
 
-            {/* Manga Caption Box */}
-            <div
-              className="comic-caption-box"
+          <div
+            className="comic-art-wrapper"
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              openLightbox({
+                src: getAssetUrl('/assets/comic/college_hero_campus.jpg'),
+                alt: 'Grand university amphitheater where students compile real code against automated benchmarks',
+                title: 'Prologue: The Campus Renaissance',
+                chapterTag: 'CHAPTER 00 // HERO CAMPUS',
+                dialogue: '“Automated containerized test runners replace unverified exams with verifiable student code repositories and undeniable placement capability.”',
+              });
+            }}
+          >
+            <img
+              src={getAssetUrl('/assets/comic/college_hero_campus.jpg')}
+              alt="Grand university amphitheater where students compile real code against automated benchmarks under the golden Artifura emblem"
               style={{
-                position: 'absolute',
-                top: '18px',
-                left: '20px',
-                zIndex: 6,
-                background: 'rgba(12, 12, 12, 0.92)',
-                border: '1px solid var(--gold-bright)',
-                padding: '6px 14px',
-                color: 'var(--gold-bright)',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.72rem',
-                fontWeight: 700,
-                letterSpacing: '0.12em',
+                width: '100%',
+                height: '105%',
+                objectFit: 'cover',
+                display: 'block',
+                transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+              }}
+              loading="eager"
+            />
+
+            {/* Interactive Zoom Pill */}
+            <div
+              className="comic-zoom-pill"
+              onClick={(e) => {
+                e.stopPropagation();
+                openLightbox({
+                  src: getAssetUrl('/assets/comic/college_hero_campus.jpg'),
+                  alt: 'Grand university amphitheater where students compile real code against automated benchmarks',
+                  title: 'Prologue: The Campus Renaissance',
+                  chapterTag: 'CHAPTER 00 // HERO CAMPUS',
+                  dialogue: '“Automated containerized test runners replace unverified exams with verifiable student code repositories and undeniable placement capability.”',
+                });
               }}
             >
-              PROLOGUE // THE CAMPUS RENAISSANCE
+              <Maximize2 size={11} />
+              <span>TAP TO ZOOM</span>
             </div>
           </div>
         </div>

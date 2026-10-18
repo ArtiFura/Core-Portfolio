@@ -2,15 +2,18 @@ import React, { useState, useRef, useEffect } from 'react';
 import {
   Eye,
   Zap,
+  Maximize2,
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useParallax } from '../../motion/useScrollReveal';
 import { getAssetUrl } from '../../utils/asset';
+import { useComicLightbox } from '../common/ComicLightboxContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const Chapter02BlindSpot: React.FC = () => {
+  const { openLightbox } = useComicLightbox();
   const [activeTab, setActiveTab] = useState<'commits' | 'terminal' | 'tests'>('commits');
   const sectionRef = useRef<HTMLElement | null>(null);
   const headerRef = useRef<HTMLDivElement | null>(null);
@@ -228,36 +231,8 @@ export const Chapter02BlindSpot: React.FC = () => {
         >
 
 
-          {/* Graphic Novel Artwork Container */}
-          <div
-            className="comic-artwork-container"
-            style={{ position: 'relative', aspectRatio: '16/9', overflow: 'hidden' }}
-          >
-            <img
-              ref={parallaxImgRef}
-              src={getAssetUrl('/assets/comic/company_ch2_blindspot.jpg')}
-              alt="Split composition: Recruiter filtering paper files on the left, capable student building code surrounded by glowing monitors on the right"
-              style={{
-                width: '100%',
-                height: '110%',
-                objectFit: 'cover',
-                display: 'block',
-                filter: 'contrast(1.08) brightness(0.96)',
-              }}
-              loading="lazy"
-            />
-
-            {/* Vignette Gradient */}
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                background:
-                  'linear-gradient(180deg, rgba(8, 8, 8, 0.1) 0%, transparent 40%, rgba(8, 8, 8, 0.88) 100%)',
-                pointerEvents: 'none',
-              }}
-            />
-
+          {/* Indicators: Split in corners on desktop, clean header row on mobile */}
+          <div className="comic-mobile-header-bar">
             {/* In-Artwork Left Indicator */}
             <div
               style={{
@@ -271,6 +246,7 @@ export const Chapter02BlindSpot: React.FC = () => {
                 fontSize: '0.68rem',
                 color: '#aaa',
                 letterSpacing: '0.12em',
+                zIndex: 6,
               }}
             >
               SIDE A: ATS KEYWORD SCREEN
@@ -292,6 +268,7 @@ export const Chapter02BlindSpot: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
+                zIndex: 6,
               }}
             >
               <div
@@ -305,43 +282,102 @@ export const Chapter02BlindSpot: React.FC = () => {
               />
               <span>SIDE B: UNSEEN PRACTICAL MASTERY</span>
             </div>
+          </div>
 
-            {/* Bottom Caption Overlay */}
-            <div
-              className="comic-caption-box"
+          {/* Graphic Novel Artwork Container */}
+          <div
+            className="comic-art-wrapper"
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              openLightbox({
+                src: getAssetUrl('/assets/comic/company_ch2_blindspot.jpg'),
+                alt: 'Split composition: Recruiter filtering paper files on the left, capable student building code surrounded by glowing monitors on the right',
+                title: 'Chapter 02 // The Blind Spot',
+                chapterTag: 'CHRONICLE 02 // THE TALENT GAP',
+                dialogue: '“On paper, a student has zero corporate years. In reality, they are building resilient software, understanding edge cases, and pushing clean production-grade code every night.”',
+              });
+            }}
+          >
+            <img
+              ref={parallaxImgRef}
+              src={getAssetUrl('/assets/comic/company_ch2_blindspot.jpg')}
+              alt="Split composition: Recruiter filtering paper files on the left, capable student building code surrounded by glowing monitors on the right"
               style={{
-                position: 'absolute',
-                bottom: '20px',
-                left: '20px',
-                right: '20px',
-                maxWidth: '720px',
-                background: 'rgba(10, 10, 10, 0.92)',
-                backdropFilter: 'blur(8px)',
+                width: '100%',
+                height: '110%',
+                objectFit: 'cover',
+                display: 'block',
+                filter: 'contrast(1.08) brightness(0.96)',
+              }}
+              loading="lazy"
+            />
+
+            {/* Tap to Zoom Indicator */}
+            <div
+              className="comic-zoom-pill"
+              onClick={(e) => {
+                e.stopPropagation();
+                openLightbox({
+                  src: getAssetUrl('/assets/comic/company_ch2_blindspot.jpg'),
+                  alt: 'Split composition: Recruiter filtering paper files on the left, capable student building code surrounded by glowing monitors on the right',
+                  title: 'Chapter 02 // The Blind Spot',
+                  chapterTag: 'CHRONICLE 02 // THE TALENT GAP',
+                  dialogue: '“On paper, a student has zero corporate years. In reality, they are building resilient software, understanding edge cases, and pushing clean production-grade code every night.”',
+                });
               }}
             >
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.64rem',
-                  color: 'var(--gold-bright)',
-                  letterSpacing: '0.2em',
-                  display: 'block',
-                  marginBottom: '2px',
-                }}
-              >
-                THE CORE INSIGHT
-              </span>
-              <p
-                style={{
-                  margin: 0,
-                  fontSize: '0.88rem',
-                  color: 'var(--text-ivory)',
-                  lineHeight: 1.45,
-                }}
-              >
-                On paper, a student has zero corporate years. In reality, they are building resilient software, understanding edge cases, and pushing clean production-grade code every night.
-              </p>
+              <Maximize2 size={11} />
+              <span>TAP TO ZOOM</span>
             </div>
+
+            {/* Vignette Gradient */}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background:
+                  'linear-gradient(180deg, rgba(8, 8, 8, 0.1) 0%, transparent 40%, rgba(8, 8, 8, 0.88) 100%)',
+                pointerEvents: 'none',
+              }}
+            />
+          </div>
+
+          {/* Bottom Caption Overlay: On PC bottom inside frame; On Mobile stacked cleanly below */}
+          <div
+            className="comic-caption-box comic-mobile-stack-card"
+            style={{
+              position: 'absolute',
+              bottom: '20px',
+              left: '20px',
+              right: '20px',
+              maxWidth: '720px',
+              background: 'rgba(10, 10, 10, 0.94)',
+              backdropFilter: 'blur(8px)',
+              zIndex: 7,
+            }}
+          >
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.64rem',
+                color: 'var(--gold-bright)',
+                letterSpacing: '0.2em',
+                display: 'block',
+                marginBottom: '2px',
+              }}
+            >
+              THE CORE INSIGHT
+            </span>
+            <p
+              style={{
+                margin: 0,
+                fontSize: '0.88rem',
+                color: 'var(--text-ivory)',
+                lineHeight: 1.45,
+              }}
+            >
+              On paper, a student has zero corporate years. In reality, they are building resilient software, understanding edge cases, and pushing clean production-grade code every night.
+            </p>
           </div>
         </div>
 

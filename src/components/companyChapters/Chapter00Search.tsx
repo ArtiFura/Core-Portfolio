@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowDown, Search, ShieldCheck, Terminal, Layers } from 'lucide-react';
+import { ArrowDown, Search, ShieldCheck, Terminal, Layers, Maximize2 } from 'lucide-react';
 import gsap from 'gsap';
 import { useMagnetic } from '../../motion/useMagnetic';
 import { useMouseSpotlight } from '../../motion/useMouseSpotlight';
 import { useContainerParallax } from '../../motion/useContainerParallax';
 import { ShinyText, BlurText, TextType } from '../reactbits';
 import { getAssetUrl } from '../../utils/asset';
+import { useComicLightbox } from '../common/ComicLightboxContext';
 
 interface Chapter00SearchProps {
   onExploreStory: () => void;
@@ -16,6 +17,7 @@ export const Chapter00Search: React.FC<Chapter00SearchProps> = ({
   onExploreStory,
   onOpenCompanyModal,
 }) => {
+  const { openLightbox } = useComicLightbox();
   const containerRef = useRef<HTMLElement | null>(null);
   const wordmarkRef = useRef<HTMLHeadingElement | null>(null);
   const goldLineRef = useRef<HTMLDivElement | null>(null);
@@ -302,8 +304,20 @@ export const Chapter00Search: React.FC<Chapter00SearchProps> = ({
         >
 
 
-          {/* Graphic Novel Artwork */}
-          <div style={{ position: 'relative', aspectRatio: '16/9', overflow: 'hidden' }}>
+          {/* Graphic Novel Artwork Container */}
+          <div
+            className="comic-art-wrapper"
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              openLightbox({
+                src: getAssetUrl('/assets/comic/company_hero.jpg'),
+                alt: 'Recruiter in dark obsidian room surrounded by floating candidate profile holograms',
+                title: 'Prologue: Beyond the Surface',
+                chapterTag: 'CHAPTER 00 // CANDIDATE SEARCH',
+                dialogue: '“Every screen shows identical bullet points, certifications, and high-level keywords. Yet beneath the noise, a breakthrough engineer is writing resilient code in silence.”',
+              });
+            }}
+          >
             <img
               src={getAssetUrl('/assets/comic/company_hero.jpg')}
               alt="Recruiter in dark obsidian room surrounded by floating candidate profile holograms"
@@ -317,6 +331,24 @@ export const Chapter00Search: React.FC<Chapter00SearchProps> = ({
               }}
               loading="eager"
             />
+
+            {/* Tap to Zoom Indicator */}
+            <div
+              className="comic-zoom-pill"
+              onClick={(e) => {
+                e.stopPropagation();
+                openLightbox({
+                  src: getAssetUrl('/assets/comic/company_hero.jpg'),
+                  alt: 'Recruiter in dark obsidian room surrounded by floating candidate profile holograms',
+                  title: 'Prologue: Beyond the Surface',
+                  chapterTag: 'CHAPTER 00 // CANDIDATE SEARCH',
+                  dialogue: '“Every screen shows identical bullet points, certifications, and high-level keywords. Yet beneath the noise, a breakthrough engineer is writing resilient code in silence.”',
+                });
+              }}
+            >
+              <Maximize2 size={11} />
+              <span>TAP TO ZOOM</span>
+            </div>
 
             {/* Gradient vignetting */}
             <div
@@ -343,6 +375,7 @@ export const Chapter00Search: React.FC<Chapter00SearchProps> = ({
                 alignItems: 'center',
                 gap: '8px',
                 clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))',
+                zIndex: 6,
               }}
             >
               <div
@@ -366,51 +399,52 @@ export const Chapter00Search: React.FC<Chapter00SearchProps> = ({
                 CANDIDATE FIELD: 1,420 PROFILES EVALUATED
               </span>
             </div>
+          </div>
 
-            {/* Comic Narration Caption Box */}
+          {/* Comic Narration Caption Box: Absolute on PC, stacked cleanly below image on mobile */}
+          <div
+            ref={plaqueRef}
+            className="comic-caption-box comic-mobile-stack-card"
+            style={{
+              position: 'absolute',
+              bottom: '24px',
+              left: '24px',
+              right: '24px',
+              maxWidth: '680px',
+              background: 'rgba(12, 12, 12, 0.94)',
+              backdropFilter: 'blur(12px)',
+              textAlign: 'left',
+              zIndex: 7,
+            }}
+          >
             <div
-              ref={plaqueRef}
-              className="comic-caption-box"
               style={{
-                position: 'absolute',
-                bottom: '24px',
-                left: '24px',
-                right: '24px',
-                maxWidth: '680px',
-                background: 'rgba(12, 12, 12, 0.94)',
-                backdropFilter: 'blur(12px)',
-                textAlign: 'left',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.65rem',
+                color: 'var(--gold-bright)',
+                letterSpacing: '0.2em',
+                marginBottom: '4px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
               }}
             >
-              <div
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.65rem',
-                  color: 'var(--gold-bright)',
-                  letterSpacing: '0.2em',
-                  marginBottom: '4px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                }}
-              >
-                <Layers size={11} />
-                <span>NARRATIVE DISPATCH // BEYOND THE SURFACE</span>
-              </div>
-              <BlurText
-                text="“Every screen shows identical bullet points, certifications, and high-level keywords. Yet beneath the noise, a breakthrough engineer is writing resilient code in silence.”"
-                delay={65}
-                animateBy="words"
-                direction="top"
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.92rem',
-                  color: 'var(--text-ivory)',
-                  lineHeight: 1.5,
-                  margin: 0,
-                }}
-              />
+              <Layers size={11} />
+              <span>NARRATIVE DISPATCH // BEYOND THE SURFACE</span>
             </div>
+            <BlurText
+              text="“Every screen shows identical bullet points, certifications, and high-level keywords. Yet beneath the noise, a breakthrough engineer is writing resilient code in silence.”"
+              delay={65}
+              animateBy="words"
+              direction="top"
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.92rem',
+                color: 'var(--text-ivory)',
+                lineHeight: 1.5,
+                margin: 0,
+              }}
+            />
           </div>
         </div>
 

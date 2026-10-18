@@ -7,16 +7,19 @@ import {
   CheckCircle,
   Network,
   Cpu,
+  Maximize2,
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useParallax } from '../../motion/useScrollReveal';
 import { useMouseSpotlight } from '../../motion/useMouseSpotlight';
 import { getAssetUrl } from '../../utils/asset';
+import { useComicLightbox } from '../common/ComicLightboxContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const Chapter02TurningPoint: React.FC = () => {
+  const { openLightbox } = useComicLightbox();
   const [activeTab, setActiveTab] = useState<'paths' | 'challenges' | 'assessment' | 'milestones'>('paths');
   const sectionRef = useRef<HTMLElement | null>(null);
   const headerRef = useRef<HTMLDivElement | null>(null);
@@ -208,7 +211,19 @@ export const Chapter02TurningPoint: React.FC = () => {
         >
 
 
-          <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
+          <div
+            className="comic-art-wrapper"
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              openLightbox({
+                src: getAssetUrl('/assets/comic/chapter2.jpg'),
+                alt: 'Student connecting through glowing golden lines to a structured futuristic desktop LMS dashboard',
+                title: 'Chapter 02 // The Turning Point',
+                chapterTag: 'CHRONICLE 02 // REAL-TIME SANDBOX',
+                dialogue: '“Practice is not an afterthought. The compiler executes real test-suites alongside instruction, measuring latency and algorithmic correctness.”',
+              });
+            }}
+          >
             <img
               ref={parallaxImgRef}
               src={getAssetUrl('/assets/comic/chapter2.jpg')}
@@ -222,6 +237,22 @@ export const Chapter02TurningPoint: React.FC = () => {
               }}
               loading="lazy"
             />
+            <div
+              className="comic-zoom-pill"
+              onClick={(e) => {
+                e.stopPropagation();
+                openLightbox({
+                  src: getAssetUrl('/assets/comic/chapter2.jpg'),
+                  alt: 'Student connecting through glowing golden lines to a structured futuristic desktop LMS dashboard',
+                  title: 'Chapter 02 // The Turning Point',
+                  chapterTag: 'CHRONICLE 02 // REAL-TIME SANDBOX',
+                  dialogue: '“Practice is not an afterthought. The compiler executes real test-suites alongside instruction, measuring latency and algorithmic correctness.”',
+                });
+              }}
+            >
+              <Maximize2 size={11} />
+              <span>TAP TO ZOOM</span>
+            </div>
             <div
               style={{
                 position: 'absolute',
@@ -267,7 +298,19 @@ export const Chapter02TurningPoint: React.FC = () => {
             marginBottom: '40px',
           }}
         >
-          <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
+          <div
+            className="comic-art-wrapper"
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              openLightbox({
+                src: getAssetUrl('/assets/comic/college_ch2_architecture.jpg'),
+                alt: '4-Stage sequential manga flow showing student entering sandbox, compiler executing tests, and cryptographic passport generation',
+                title: 'The 4-Stage Sandbox Pipeline',
+                chapterTag: 'CHRONICLE 02 // ARCHITECTURE',
+                dialogue: '“Stage 1: Containerized sandbox entry. Stage 2: 50 automated edge-case test suites. Stage 3: O(N log N) runtime benchmarking. Stage 4: Cryptographic skill passport creation.”',
+              });
+            }}
+          >
             <img
               src={getAssetUrl('/assets/comic/college_ch2_architecture.jpg')}
               alt="4-Stage sequential manga flow showing student entering sandbox, compiler executing 50 edge-case tests, O(N log N) benchmarking, and cryptographic passport generation"
@@ -280,6 +323,24 @@ export const Chapter02TurningPoint: React.FC = () => {
               }}
               loading="lazy"
             />
+
+            <div
+              className="comic-zoom-pill"
+              onClick={(e) => {
+                e.stopPropagation();
+                openLightbox({
+                  src: getAssetUrl('/assets/comic/college_ch2_architecture.jpg'),
+                  alt: '4-Stage sequential manga flow',
+                  title: 'The 4-Stage Sandbox Pipeline',
+                  chapterTag: 'CHRONICLE 02 // ARCHITECTURE',
+                  dialogue: '“Stage 1: Containerized sandbox entry. Stage 2: 50 automated edge-case test suites. Stage 3: O(N log N) runtime benchmarking. Stage 4: Cryptographic skill passport creation.”',
+                });
+              }}
+            >
+              <Maximize2 size={11} />
+              <span>TAP TO ZOOM</span>
+            </div>
+
             <div
               className="comic-caption-box"
               style={{
@@ -305,7 +366,7 @@ export const Chapter02TurningPoint: React.FC = () => {
         {/* Desktop LMS Concept Mockup Panel (Assembled from converging directions) */}
         <div
           ref={setMockupRef}
-          className="comic-frame gold-spotlight-container screenshot-card-container"
+          className="comic-frame gold-spotlight-container screenshot-card-container lms-mockup-frame"
           style={{
             background: '#0e0e0e',
             border: '1px solid var(--gold-border)',
@@ -317,6 +378,7 @@ export const Chapter02TurningPoint: React.FC = () => {
           {/* Top Window Chrome (Slides from Top) */}
           <div
             ref={topChromeRef}
+            className="lms-top-chrome"
             style={{
               background: '#161616',
               borderBottom: '1px solid rgba(212, 175, 55, 0.25)',
@@ -356,6 +418,7 @@ export const Chapter02TurningPoint: React.FC = () => {
           {/* Sub Navigation Tabs (Slides from Left) */}
           <div
             ref={tabsBarRef}
+            className="lms-tabs-bar"
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
@@ -372,6 +435,7 @@ export const Chapter02TurningPoint: React.FC = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
+                  className={`lms-tab-btn ${isActive ? 'active' : ''}`}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -398,9 +462,10 @@ export const Chapter02TurningPoint: React.FC = () => {
           </div>
 
           {/* Tab Content Display (Converges into Alignment) */}
-          <div ref={tabContentRef} style={{ padding: '24px', position: 'relative', zIndex: 3 }}>
+          <div ref={tabContentRef} className="lms-tab-content" style={{ padding: '24px', position: 'relative', zIndex: 3 }}>
             {activeTab === 'paths' && (
               <div
+                className="lms-card-grid"
                 style={{
                   display: 'grid',
                   gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
@@ -618,6 +683,7 @@ export const Chapter02TurningPoint: React.FC = () => {
 
             {activeTab === 'assessment' && (
               <div
+                className="lms-card-grid"
                 style={{
                   display: 'grid',
                   gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',

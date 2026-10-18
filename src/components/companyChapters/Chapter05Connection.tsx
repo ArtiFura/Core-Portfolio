@@ -2,12 +2,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import {
   ShieldCheck,
   ArrowRight,
+  Maximize2,
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useParallax } from '../../motion/useScrollReveal';
 import { useMagnetic } from '../../motion/useMagnetic';
 import { getAssetUrl } from '../../utils/asset';
+import { useComicLightbox } from '../common/ComicLightboxContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -18,6 +20,7 @@ interface Chapter05ConnectionProps {
 export const Chapter05Connection: React.FC<Chapter05ConnectionProps> = ({
   onOpenCompanyModal,
 }) => {
+  const { openLightbox } = useComicLightbox();
   const [connectionStep, setConnectionStep] = useState<1 | 2 | 3>(2);
   const sectionRef = useRef<HTMLElement | null>(null);
   const headerRef = useRef<HTMLDivElement | null>(null);
@@ -191,12 +194,78 @@ export const Chapter05Connection: React.FC<Chapter05ConnectionProps> = ({
             boxShadow: '0 20px 50px rgba(0, 0, 0, 0.85)',
           }}
         >
+          {/* Top badges: Split in corners on desktop, clean header row on mobile */}
+          <div className="comic-mobile-header-bar">
+            <div
+              style={{
+                position: 'absolute',
+                top: '18px',
+                left: '20px',
+                zIndex: 6,
+                background: 'rgba(12, 12, 12, 0.92)',
+                border: '1px solid var(--gold-bright)',
+                padding: '6px 14px',
+                color: 'var(--gold-bright)',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.72rem',
+                fontWeight: 700,
+                letterSpacing: '0.12em',
+              }}
+            >
+              CHRONICLE 05 // DIRECT CONNECTION
+            </div>
 
+            <div
+              style={{
+                position: 'absolute',
+                top: '18px',
+                right: '20px',
+                background: 'rgba(10, 10, 10, 0.9)',
+                border: '1px solid var(--gold-border-bright)',
+                padding: '6px 14px',
+                backdropFilter: 'blur(8px)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                zIndex: 6,
+                boxShadow: '0 6px 20px rgba(0, 0, 0, 0.8)',
+              }}
+            >
+              <span
+                style={{
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  background: '#22c55e',
+                  boxShadow: '0 0 10px #22c55e',
+                }}
+              />
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.68rem',
+                  color: 'var(--gold-bright)',
+                  letterSpacing: '0.14em',
+                }}
+              >
+                PIPELINE STATUS: VERIFIED MATCH
+              </span>
+            </div>
+          </div>
 
           {/* Graphic Novel Artwork Container */}
           <div
-            className="comic-artwork-container"
-            style={{ position: 'relative', aspectRatio: '16/9', overflow: 'hidden' }}
+            className="comic-art-wrapper"
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              openLightbox({
+                src: getAssetUrl('/assets/comic/company_ch5_pipeline.jpg'),
+                alt: 'Engineering director connecting directly with verified candidate after reviewing verified algorithms and test results',
+                title: 'Chapter 05 // Direct Connection',
+                chapterTag: 'CHRONICLE 05 // PIPELINE MATCH',
+                dialogue: '“The conversation changes when you start with proof. Instead of ‘Tell me about yourself,’ the interview begins with ‘We looked at your consensus engine—let’s talk about your raft quorum design.’”',
+              });
+            }}
           >
             <img
               ref={parallaxImgRef}
@@ -240,42 +309,60 @@ export const Chapter05Connection: React.FC<Chapter05ConnectionProps> = ({
               <div className="connector-photon" />
             </div>
 
-            {/* Caption Overlay */}
+            {/* Tap to Zoom Indicator */}
             <div
-              className="comic-caption-box"
-              style={{
-                position: 'absolute',
-                bottom: '20px',
-                left: '20px',
-                right: '20px',
-                maxWidth: '720px',
-                background: 'rgba(10, 10, 10, 0.94)',
-                backdropFilter: 'blur(8px)',
+              className="comic-zoom-pill"
+              onClick={(e) => {
+                e.stopPropagation();
+                openLightbox({
+                  src: getAssetUrl('/assets/comic/company_ch5_pipeline.jpg'),
+                  alt: 'Engineering director connecting directly with verified candidate after reviewing verified algorithms and test results',
+                  title: 'Chapter 05 // Direct Connection',
+                  chapterTag: 'CHRONICLE 05 // PIPELINE MATCH',
+                  dialogue: '“The conversation changes when you start with proof. Instead of ‘Tell me about yourself,’ the interview begins with ‘We looked at your consensus engine—let’s talk about your raft quorum design.’”',
+                });
               }}
             >
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.64rem',
-                  color: 'var(--gold-bright)',
-                  letterSpacing: '0.2em',
-                  display: 'block',
-                  marginBottom: '2px',
-                }}
-              >
-                THE CONNECTION MOMENT
-              </span>
-              <p
-                style={{
-                  margin: 0,
-                  fontSize: '0.88rem',
-                  color: 'var(--text-ivory)',
-                  lineHeight: 1.45,
-                }}
-              >
-                “The conversation changes when you start with proof. Instead of ‘Tell me about yourself,’ the interview begins with ‘We looked at your consensus engine—let’s talk about your raft quorum design.’”
-              </p>
+              <Maximize2 size={11} />
+              <span>TAP TO ZOOM</span>
             </div>
+          </div>
+
+          {/* Caption Overlay: Desktop bottom inside frame, Mobile stacked cleanly below */}
+          <div
+            className="comic-caption-box comic-mobile-stack-card"
+            style={{
+              position: 'absolute',
+              bottom: '20px',
+              left: '20px',
+              right: '20px',
+              maxWidth: '720px',
+              background: 'rgba(10, 10, 10, 0.94)',
+              backdropFilter: 'blur(8px)',
+            }}
+          >
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.64rem',
+                color: 'var(--gold-bright)',
+                letterSpacing: '0.2em',
+                display: 'block',
+                marginBottom: '2px',
+              }}
+            >
+              THE CONNECTION MOMENT
+            </span>
+            <p
+              style={{
+                margin: 0,
+                fontSize: '0.88rem',
+                color: 'var(--text-ivory)',
+                lineHeight: 1.45,
+              }}
+            >
+              “The conversation changes when you start with proof. Instead of ‘Tell me about yourself,’ the interview begins with ‘We looked at your consensus engine—let’s talk about your raft quorum design.’”
+            </p>
           </div>
         </div>
 

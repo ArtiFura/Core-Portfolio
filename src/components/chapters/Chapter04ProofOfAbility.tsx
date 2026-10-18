@@ -6,6 +6,7 @@ import {
   Check,
   Award,
   Layers,
+  Maximize2,
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -13,10 +14,12 @@ import { useParallax } from '../../motion/useScrollReveal';
 import { use3DTilt } from '../../motion/use3DTilt';
 import { useContainerParallax } from '../../motion/useContainerParallax';
 import { getAssetUrl } from '../../utils/asset';
+import { useComicLightbox } from '../common/ComicLightboxContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const Chapter04ProofOfAbility: React.FC = () => {
+  const { openLightbox } = useComicLightbox();
   const [copied, setCopied] = useState(false);
   const [selectedTimelineNode, setSelectedTimelineNode] = useState<number>(2);
 
@@ -276,7 +279,19 @@ export const Chapter04ProofOfAbility: React.FC = () => {
         >
 
 
-          <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
+          <div
+            className="comic-art-wrapper"
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              openLightbox({
+                src: getAssetUrl('/assets/comic/chapter4.jpg'),
+                alt: 'Verified developer portfolio showing technical milestone timeline and shareable passport',
+                title: 'Chapter 04 // Proof of Ability',
+                chapterTag: 'CHRONICLE 04 // PROOF DOSSIER',
+                dialogue: '“A shareable, tamper-proof proof-of-ability dossier with cryptographic hashes, test coverage metrics, and real commit timelines.”',
+              });
+            }}
+          >
             <img
               ref={parallaxImgRef}
               className="dossier-artwork-layer"
@@ -291,6 +306,22 @@ export const Chapter04ProofOfAbility: React.FC = () => {
               }}
               loading="lazy"
             />
+            <div
+              className="comic-zoom-pill"
+              onClick={(e) => {
+                e.stopPropagation();
+                openLightbox({
+                  src: getAssetUrl('/assets/comic/chapter4.jpg'),
+                  alt: 'Verified developer portfolio showing technical milestone timeline and shareable passport',
+                  title: 'Chapter 04 // Proof of Ability',
+                  chapterTag: 'CHRONICLE 04 // PROOF DOSSIER',
+                  dialogue: '“A shareable, tamper-proof proof-of-ability dossier with cryptographic hashes, test coverage metrics, and real commit timelines.”',
+                });
+              }}
+            >
+              <Maximize2 size={11} />
+              <span>TAP TO ZOOM</span>
+            </div>
             <div
               style={{
                 position: 'absolute',

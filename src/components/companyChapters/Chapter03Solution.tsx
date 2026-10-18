@@ -2,14 +2,17 @@ import React, { useState, useRef, useEffect } from 'react';
 import {
   Code2,
   Sparkles,
+  Maximize2,
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { getAssetUrl } from '../../utils/asset';
+import { useComicLightbox } from '../common/ComicLightboxContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const Chapter03Solution: React.FC = () => {
+  const { openLightbox } = useComicLightbox();
   const [selectedCandidate, setSelectedCandidate] = useState(0);
   const [activeFilter, setActiveFilter] = useState<'all' | 'systems' | 'web' | 'cloud'>('all');
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -269,19 +272,28 @@ func (o *ChaosOperator) InjectNetworkDrop(pod *v1.Pod, dropPct int) error {
             boxShadow: '0 25px 70px rgba(0, 0, 0, 0.95), 0 0 45px rgba(212, 175, 55, 0.18)',
           }}
         >
-          <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
-            <img
-              src={getAssetUrl('/assets/comic/company_ch3_solution.jpg')}
-              alt="Tech lead and hiring manager reviewing holographic candidate telemetry with 48/48 passed test suites"
+          {/* Badges: Split in corners on desktop, clean header bar on mobile */}
+          <div className="comic-mobile-header-bar">
+            {/* Manga Caption Box */}
+            <div
+              className="comic-caption-box"
               style={{
-                width: '100%',
-                height: '106%',
-                objectFit: 'cover',
-                display: 'block',
-                transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+                position: 'absolute',
+                top: '18px',
+                left: '20px',
+                zIndex: 6,
+                background: 'rgba(12, 12, 12, 0.92)',
+                border: '1px solid var(--gold-bright)',
+                padding: '6px 14px',
+                color: 'var(--gold-bright)',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.72rem',
+                fontWeight: 700,
+                letterSpacing: '0.12em',
               }}
-              loading="lazy"
-            />
+            >
+              CHRONICLE 03 // THE VERIFIED SOLUTION
+            </div>
 
             {/* In-Scene Interactive Floating Recruiter Signal */}
             <div
@@ -320,26 +332,48 @@ func (o *ChaosOperator) InjectNetworkDrop(pod *v1.Pod, dropPct int) error {
                 BENCHMARK: 48/48 PASSED [VERIFIED]
               </span>
             </div>
+          </div>
 
-            {/* Manga Caption Box */}
-            <div
-              className="comic-caption-box"
+          <div
+            className="comic-art-wrapper"
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              openLightbox({
+                src: getAssetUrl('/assets/comic/company_ch3_solution.jpg'),
+                alt: 'Tech lead and hiring manager reviewing holographic candidate telemetry with passed test suites',
+                title: 'Chapter 03 // The Verified Solution',
+                chapterTag: 'CHRONICLE 03 // TELEMETRY PROOF',
+                dialogue: '“Tech lead and hiring manager reviewing holographic candidate telemetry with 48/48 passed automated test suites.”',
+              });
+            }}
+          >
+            <img
+              src={getAssetUrl('/assets/comic/company_ch3_solution.jpg')}
+              alt="Tech lead and hiring manager reviewing holographic candidate telemetry with 48/48 passed test suites"
               style={{
-                position: 'absolute',
-                top: '18px',
-                left: '20px',
-                zIndex: 6,
-                background: 'rgba(12, 12, 12, 0.92)',
-                border: '1px solid var(--gold-bright)',
-                padding: '6px 14px',
-                color: 'var(--gold-bright)',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.72rem',
-                fontWeight: 700,
-                letterSpacing: '0.12em',
+                width: '100%',
+                height: '106%',
+                objectFit: 'cover',
+                display: 'block',
+                transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+              }}
+              loading="lazy"
+            />
+            <div
+              className="comic-zoom-pill"
+              onClick={(e) => {
+                e.stopPropagation();
+                openLightbox({
+                  src: getAssetUrl('/assets/comic/company_ch3_solution.jpg'),
+                  alt: 'Tech lead and hiring manager reviewing holographic candidate telemetry with passed test suites',
+                  title: 'Chapter 03 // The Verified Solution',
+                  chapterTag: 'CHRONICLE 03 // TELEMETRY PROOF',
+                  dialogue: '“Tech lead and hiring manager reviewing holographic candidate telemetry with 48/48 passed automated test suites.”',
+                });
               }}
             >
-              CHRONICLE 03 // THE VERIFIED SOLUTION
+              <Maximize2 size={11} />
+              <span>TAP TO ZOOM</span>
             </div>
           </div>
         </div>

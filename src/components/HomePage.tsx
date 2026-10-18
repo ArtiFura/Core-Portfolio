@@ -12,11 +12,13 @@ import {
   Send,
   ArrowUp,
   AlertTriangle,
+  Maximize2,
 } from 'lucide-react';
 import { StoryNavigation } from './common/StoryNavigation';
 import { ParticleCanvas } from './common/ParticleCanvas';
 import { GoldDivider } from './common/GoldDivider';
 import { ProjectModal } from './common/ProjectModal';
+import { useComicLightbox } from './common/ComicLightboxContext';
 import { ArtifuraSymbol } from './ArtifuraIntro';
 import { getAssetUrl } from '../utils/asset';
 import { initSmoothScroll, destroySmoothScroll } from '../motion/lenisManager';
@@ -39,6 +41,7 @@ interface HomePageProps {
 
 export function HomePage({ onNavigatePage }: HomePageProps) {
   const currentYear = new Date().getFullYear();
+  const { openLightbox } = useComicLightbox();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState<'college' | 'business' | 'partner'>('college');
 
@@ -172,7 +175,7 @@ export function HomePage({ onNavigatePage }: HomePageProps) {
             className="hud-hide-mobile"
           >
             <span style={{ width: '16px', height: '1.5px', background: 'var(--gold-primary)' }} />
-            <ShinyText text="ARTIFURA // LMS ECOSYSTEM" speed={3.5} shineColor="#ffe08d" color="#8c6a18" />
+            <ShinyText text="ARTIFURA // LMS ECOSYSTEM" speed={3.5} shineColor="#ffffff" color="var(--gold-bright)" />
           </div>
 
           <div
@@ -182,7 +185,7 @@ export function HomePage({ onNavigatePage }: HomePageProps) {
               right: '32px',
               fontFamily: 'var(--font-mono)',
               fontSize: '10.5px',
-              color: '#8c6a18',
+              color: 'var(--gold-bright)',
               letterSpacing: '0.18em',
               display: 'flex',
               alignItems: 'center',
@@ -192,7 +195,7 @@ export function HomePage({ onNavigatePage }: HomePageProps) {
             className="hud-hide-mobile"
           >
             <span style={{ width: '16px', height: '1.5px', background: 'var(--gold-primary)' }} />
-            <ShinyText text="TALENT & LEARNING INFRASTRUCTURE" speed={3.5} delay={1} shineColor="#ffe08d" color="#8c6a18" />
+            <ShinyText text="TALENT & LEARNING INFRASTRUCTURE" speed={3.5} delay={1} shineColor="#ffffff" color="var(--gold-bright)" />
           </div>
 
           {/* Centerpiece Content */}
@@ -344,15 +347,26 @@ export function HomePage({ onNavigatePage }: HomePageProps) {
                 />
 
                 <div>
-                  {/* Manga Preview Thumbnail */}
+                  {/* Manga Preview Thumbnail with Tap-to-Zoom */}
                   <div
+                    className="comic-art-wrapper"
                     style={{
                       position: 'relative',
                       borderRadius: '2px',
                       overflow: 'hidden',
-                      aspectRatio: '16/9',
                       marginBottom: '18px',
                       border: '1px solid var(--gold-border)',
+                      cursor: 'pointer',
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openLightbox({
+                        src: getAssetUrl('/assets/comic/college_hero_campus.jpg'),
+                        alt: 'Artifura College Academic Engineering Manga',
+                        title: 'Academic Engine // For Colleges & Institutes',
+                        chapterTag: 'MANGA CHRONICLE // 07 CHAPTERS',
+                        dialogue: '“Equip engineering departments with automated continuous testing sandboxes. Replace unverified exams with verifiable student code repositories and undeniable placement capability.”',
+                      });
                     }}
                   >
                     <img
@@ -378,9 +392,27 @@ export function HomePage({ onNavigatePage }: HomePageProps) {
                         fontSize: '0.62rem',
                         color: 'var(--gold-bright)',
                         fontWeight: 700,
+                        zIndex: 2,
                       }}
                     >
                       MANGA CHRONICLE // 07 CHAPTERS
+                    </div>
+                    <div
+                      className="comic-zoom-pill"
+                      style={{ bottom: '8px', right: '8px', left: 'auto', padding: '3px 8px', fontSize: '0.62rem' }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openLightbox({
+                          src: getAssetUrl('/assets/comic/college_hero_campus.jpg'),
+                          alt: 'Artifura College Academic Engineering Manga',
+                          title: 'Academic Engine // For Colleges & Institutes',
+                          chapterTag: 'MANGA CHRONICLE // 07 CHAPTERS',
+                          dialogue: '“Equip engineering departments with automated continuous testing sandboxes. Replace unverified exams with verifiable student code repositories and undeniable placement capability.”',
+                        });
+                      }}
+                    >
+                      <Maximize2 size={11} />
+                      <span>ZOOM</span>
                     </div>
                   </div>
 
@@ -503,15 +535,26 @@ export function HomePage({ onNavigatePage }: HomePageProps) {
                 />
 
                 <div>
-                  {/* Manga Preview Thumbnail */}
+                  {/* Manga Preview Thumbnail with Tap-to-Zoom */}
                   <div
+                    className="comic-art-wrapper"
                     style={{
                       position: 'relative',
                       borderRadius: '2px',
                       overflow: 'hidden',
-                      aspectRatio: '16/9',
                       marginBottom: '18px',
                       border: '1px solid var(--gold-border)',
+                      cursor: 'pointer',
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openLightbox({
+                        src: getAssetUrl('/assets/comic/company_hero.jpg'),
+                        alt: 'Artifura Company Talent Search Manga',
+                        title: 'Direct Industry Placement // For Companies & Recruiters',
+                        chapterTag: 'MANGA CHRONICLE // 07 CHAPTERS',
+                        dialogue: '“Stop sifting through 1,000 resume variations with unverified buzzwords. Inspect real candidates with tamper-proof execution telemetry and test logs.”',
+                      });
                     }}
                   >
                     <img
@@ -537,9 +580,27 @@ export function HomePage({ onNavigatePage }: HomePageProps) {
                         fontSize: '0.62rem',
                         color: 'var(--gold-bright)',
                         fontWeight: 700,
+                        zIndex: 2,
                       }}
                     >
                       MANGA CHRONICLE // 07 CHAPTERS
+                    </div>
+                    <div
+                      className="comic-zoom-pill"
+                      style={{ bottom: '8px', right: '8px', left: 'auto', padding: '3px 8px', fontSize: '0.62rem' }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openLightbox({
+                          src: getAssetUrl('/assets/comic/company_hero.jpg'),
+                          alt: 'Artifura Company Talent Search Manga',
+                          title: 'Direct Industry Placement // For Companies & Recruiters',
+                          chapterTag: 'MANGA CHRONICLE // 07 CHAPTERS',
+                          dialogue: '“Stop sifting through 1,000 resume variations with unverified buzzwords. Inspect real candidates with tamper-proof execution telemetry and test logs.”',
+                        });
+                      }}
+                    >
+                      <Maximize2 size={11} />
+                      <span>ZOOM</span>
                     </div>
                   </div>
 

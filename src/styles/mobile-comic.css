@@ -1,0 +1,207 @@
+/* ARTIFURA — RESPONSIVE MOBILE OPTIMIZATION & COMIC STORYTELLING STYLES */
+
+/* 1. Primary Comic Artwork Wrappers */
+.comic-art-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+@media (max-width: 768px) {
+  .comic-art-wrapper {
+    /* Give mobile screens a taller, more expansive frame so manga art is not squashed */
+    aspect-ratio: 4/3;
+    min-height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .comic-art-wrapper {
+    aspect-ratio: 1/1;
+    min-height: 270px;
+  }
+}
+
+/* 2. Interactive Zoom Indicator Pill */
+.comic-zoom-pill {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: rgba(10, 10, 10, 0.88);
+  border: 1px solid var(--gold-border-bright);
+  color: var(--gold-bright);
+  border-radius: 2px;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 4px 9px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  z-index: 8;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.8);
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.comic-zoom-pill:hover,
+.comic-zoom-pill:active {
+  background: var(--gold-bright);
+  color: #080808;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+}
+
+/* 3. Mobile Stacking for Overlays (Solves Code Text Covering Image on Mobile) */
+/* On desktop (> 768px), these retain their exact absolute coordinates */
+/* On mobile (<= 768px), they stack cleanly below the image without obscuring art */
+@media (max-width: 768px) {
+  .comic-mobile-stack-card {
+    position: static !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin-top: 14px !important;
+    box-sizing: border-box !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8) !important;
+  }
+
+  .comic-mobile-stack-card p {
+    font-size: 0.88rem !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Compact header badges so left and right pills don't collide */
+  .comic-mobile-header-bar {
+    position: static !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 10px !important;
+    width: 100% !important;
+  }
+
+  .comic-mobile-header-bar > * {
+    position: static !important;
+  }
+
+  /* Hide or condense non-essential decorative annotations that clutter small screens */
+  .comic-desktop-only-annotation {
+    display: none !important;
+  }
+
+  /* Chapter 01 Panel Switcher on mobile: display as clean tab strip */
+  .chapter01-panel-tabs-mobile {
+    display: flex !important;
+    gap: 8px !important;
+    margin-bottom: 12px !important;
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  .chapter01-panel-tabs-mobile button {
+    flex: 1 !important;
+    max-width: 120px !important;
+    text-align: center !important;
+    padding: 7px 8px !important;
+    font-size: 0.68rem !important;
+  }
+
+  .chapter01-panel-guides-desktop {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .chapter01-panel-tabs-mobile {
+    display: none !important;
+  }
+}
+
+/* 4. Story Navigation Mobile Adjustments */
+@media (max-width: 899px) {
+  .nav-cta-btn {
+    display: none !important;
+  }
+}
+
+/* 5. LMS Mockup & Frame Alignment */
+.lms-mockup-frame {
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid var(--gold-border-bright) !important;
+}
+
+@media (max-width: 768px) {
+  .comic-chapter-container,
+  #chapter-00,
+  #chapter-01,
+  #chapter-02,
+  #chapter-03,
+  #chapter-04,
+  #chapter-05,
+  #chapter-06,
+  #chapter-07 {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  /* LMS Mockup Mobile Polish: Flush chrome, sleek horizontal tab strip, aligned cards */
+  .lms-mockup-frame {
+    border-radius: 4px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .lms-top-chrome {
+    padding: 10px 14px !important;
+  }
+
+  .lms-tabs-bar {
+    display: flex !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none !important;
+    flex-wrap: nowrap !important;
+    padding: 8px 10px !important;
+    gap: 8px !important;
+    background: #0f0f0f !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .lms-tabs-bar::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .lms-tab-btn {
+    flex: 0 0 auto !important;
+    padding: 7px 12px !important;
+    font-size: 0.70rem !important;
+    white-space: nowrap !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 3px !important;
+    background: transparent !important;
+  }
+
+  .lms-tab-btn.active {
+    background: rgba(212, 175, 55, 0.16) !important;
+    border-color: var(--gold-bright) !important;
+    border-bottom: 1px solid var(--gold-bright) !important;
+    color: var(--gold-bright) !important;
+  }
+
+  .lms-tab-content {
+    padding: 14px !important;
+  }
+
+  .lms-card-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+}

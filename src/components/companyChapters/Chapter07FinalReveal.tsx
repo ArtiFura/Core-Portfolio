@@ -6,6 +6,7 @@ import {
   ArrowUp,
   Handshake,
   Layers,
+  Maximize2,
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -13,6 +14,7 @@ import { scrollToTarget } from '../../motion/lenisManager';
 import { useMagnetic } from '../../motion/useMagnetic';
 import { ArtifuraSymbol, ArtifuraLambdaGlyph } from '../ArtifuraIntro';
 import { getAssetUrl } from '../../utils/asset';
+import { useComicLightbox } from '../common/ComicLightboxContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,6 +27,7 @@ export const Chapter07FinalReveal: React.FC<Chapter07FinalRevealProps> = ({
   onOpenCompanyModal,
   onNavigateToStudents,
 }) => {
+  const { openLightbox } = useComicLightbox();
   const currentYear = new Date().getFullYear();
   const sectionRef = useRef<HTMLElement | null>(null);
   const headerRef = useRef<HTMLDivElement | null>(null);
@@ -331,19 +334,28 @@ export const Chapter07FinalReveal: React.FC<Chapter07FinalRevealProps> = ({
             boxShadow: '0 25px 70px rgba(0, 0, 0, 0.95), 0 0 50px rgba(212, 175, 55, 0.22)',
           }}
         >
-          <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
-            <img
-              src={getAssetUrl('/assets/comic/company_ch7_reveal.jpg')}
-              alt="Manga climax showing tech leader and verified student engineer shaking hands in front of glowing golden city with verified candidate passports"
+          {/* Header Bar */}
+          <div className="comic-mobile-header-bar">
+            {/* Manga Caption Box */}
+            <div
+              className="comic-caption-box"
               style={{
-                width: '100%',
-                height: '106%',
-                objectFit: 'cover',
-                display: 'block',
-                transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+                position: 'absolute',
+                top: '18px',
+                left: '20px',
+                zIndex: 6,
+                background: 'rgba(12, 12, 12, 0.92)',
+                border: '1px solid var(--gold-bright)',
+                padding: '6px 14px',
+                color: 'var(--gold-bright)',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.72rem',
+                fontWeight: 700,
+                letterSpacing: '0.12em',
               }}
-              loading="lazy"
-            />
+            >
+              FINALE // THE ERA OF VERIFIED PROOF
+            </div>
 
             {/* Live Manga Status Badge */}
             <div
@@ -382,26 +394,48 @@ export const Chapter07FinalReveal: React.FC<Chapter07FinalRevealProps> = ({
                 STATUS: VERIFIED PIPELINE ACTIVATED
               </span>
             </div>
+          </div>
 
-            {/* Manga Caption Box */}
-            <div
-              className="comic-caption-box"
+          <div
+            className="comic-art-wrapper"
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              openLightbox({
+                src: getAssetUrl('/assets/comic/company_ch7_reveal.jpg'),
+                alt: 'Manga climax showing tech leader and verified student engineer shaking hands in front of glowing golden city with verified candidate passports',
+                title: 'Chapter 07 // The Era of Verified Proof',
+                chapterTag: 'FINALE // VERIFIED HIRING ERA',
+                dialogue: '“A new era where hiring starts with proof, students build undeniable work, and companies discover extraordinary talent before the competition.”',
+              });
+            }}
+          >
+            <img
+              src={getAssetUrl('/assets/comic/company_ch7_reveal.jpg')}
+              alt="Manga climax showing tech leader and verified student engineer shaking hands in front of glowing golden city with verified candidate passports"
               style={{
-                position: 'absolute',
-                top: '18px',
-                left: '20px',
-                zIndex: 6,
-                background: 'rgba(12, 12, 12, 0.92)',
-                border: '1px solid var(--gold-bright)',
-                padding: '6px 14px',
-                color: 'var(--gold-bright)',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.72rem',
-                fontWeight: 700,
-                letterSpacing: '0.12em',
+                width: '100%',
+                height: '106%',
+                objectFit: 'cover',
+                display: 'block',
+                transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+              }}
+              loading="lazy"
+            />
+            <div
+              className="comic-zoom-pill"
+              onClick={(e) => {
+                e.stopPropagation();
+                openLightbox({
+                  src: getAssetUrl('/assets/comic/company_ch7_reveal.jpg'),
+                  alt: 'Manga climax showing tech leader and verified student engineer shaking hands in front of glowing golden city with verified candidate passports',
+                  title: 'Chapter 07 // The Era of Verified Proof',
+                  chapterTag: 'FINALE // VERIFIED HIRING ERA',
+                  dialogue: '“A new era where hiring starts with proof, students build undeniable work, and companies discover extraordinary talent before the competition.”',
+                });
               }}
             >
-              FINALE // THE ERA OF VERIFIED PROOF
+              <Maximize2 size={13} />
+              <span>TAP TO EXPAND & ZOOM</span>
             </div>
           </div>
         </div>

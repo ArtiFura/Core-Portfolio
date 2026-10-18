@@ -285,19 +285,20 @@ export const StoryNavigation: React.FC<StoryNavigationProps> = ({
           </nav>
 
           {/* Action Button (Desktop Magnetic Primary CTA) & Mobile Menu Toggle */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <button
               ref={magneticBtnRef}
               onClick={onOpenProjectModal}
-              className="btn-gold-primary gold-sweep-active"
+              className="btn-gold-primary gold-sweep-active nav-cta-btn"
               style={{
-                padding: '9px 18px',
-                fontSize: '0.78rem',
+                padding: '8px 16px',
+                fontSize: '0.76rem',
                 cursor: 'pointer',
+                whiteSpace: 'nowrap',
               }}
             >
               <ShinyText text={getCtaLabel()} speed={3} shineColor="#ffffff" color="#080808" glow={0.4} />
-              <ArrowUpRight size={14} />
+              <ArrowUpRight size={13} />
             </button>
 
             <button
@@ -427,6 +428,11 @@ export const StoryNavigation: React.FC<StoryNavigationProps> = ({
             display: flex !important;
           }
           .mobile-menu-btn {
+            display: none !important;
+          }
+        }
+        @media (max-width: 899px) {
+          .nav-cta-btn {
             display: none !important;
           }
         }

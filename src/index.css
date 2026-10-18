@@ -1,5 +1,6 @@
 /* ARTIFURA — GOLDEN COMIC GRAPHIC NOVEL DESIGN SYSTEM */
 @import './motion/animations.css';
+@import './styles/mobile-comic.css';
 
 :root {
   --bg-obsidian: #080808;

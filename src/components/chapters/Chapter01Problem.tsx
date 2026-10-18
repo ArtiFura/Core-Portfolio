@@ -1,16 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { BookOpen, Bug, Lightbulb, AlertTriangle, TerminalSquare, MessageSquare } from 'lucide-react';
+import { BookOpen, Bug, Lightbulb, AlertTriangle, TerminalSquare, MessageSquare, Maximize2 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useParallax } from '../../motion/useScrollReveal';
 import { use3DTilt } from '../../motion/use3DTilt';
 import { ScrollReveal, BlurText } from '../reactbits';
 import { getAssetUrl } from '../../utils/asset';
+import { useComicLightbox } from '../common/ComicLightboxContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const Chapter01Problem: React.FC = () => {
   const [activePanel, setActivePanel] = useState<'A' | 'B' | 'C'>('B');
+  const { openLightbox } = useComicLightbox();
   const sectionRef = useRef<HTMLElement | null>(null);
   const headerRef = useRef<HTMLDivElement | null>(null);
   const frameRef = useRef<HTMLDivElement | null>(null);
@@ -267,6 +269,29 @@ export const Chapter01Problem: React.FC = () => {
           </div>
         </div>
 
+        {/* Mobile-Friendly Panel Switcher Tabs (Shown on Mobile Viewport) */}
+        <div className="chapter01-panel-tabs-mobile">
+          {(['A', 'B', 'C'] as const).map((panelKey) => (
+            <button
+              key={panelKey}
+              onClick={() => setActivePanel(panelKey)}
+              style={{
+                background: activePanel === panelKey ? 'var(--gold-bright)' : 'rgba(15, 15, 15, 0.9)',
+                color: activePanel === panelKey ? '#080808' : 'var(--gold-bright)',
+                border: '1px solid var(--gold-border-bright)',
+                borderRadius: '2px',
+                fontWeight: 700,
+                fontFamily: 'var(--font-mono)',
+                cursor: 'pointer',
+                boxShadow: activePanel === panelKey ? '0 0 12px rgba(245, 215, 110, 0.5)' : 'none',
+                transition: 'all 0.2s ease',
+              }}
+            >
+              PANEL 01-{panelKey}
+            </button>
+          ))}
+        </div>
+
         {/* 3-Panel Comic Strip Frame */}
         <div
           ref={frameRef}
@@ -277,6 +302,7 @@ export const Chapter01Problem: React.FC = () => {
             border: '1px solid var(--gold-border)',
             boxShadow: '0 20px 50px rgba(0, 0, 0, 0.9)',
             marginBottom: '36px',
+            padding: 0,
           }}
         >
           {/* Thin Self-Drawing Border Indicator */}
@@ -294,10 +320,20 @@ export const Chapter01Problem: React.FC = () => {
             }}
           />
 
-
-
-          {/* Graphic Novel Artwork with Delayed Subtle Parallax */}
-          <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
+          {/* Graphic Novel Artwork with Delayed Subtle Parallax & Tap to Zoom */}
+          <div
+            className="comic-art-wrapper"
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              openLightbox({
+                src: getAssetUrl('/assets/comic/chapter1.jpg'),
+                alt: 'Three-panel comic scene showing student struggling with code tutorials',
+                title: `Chapter 01 // Panel 01-${activePanel}: ${panels.find((p) => p.id === activePanel)?.title}`,
+                chapterTag: 'CHRONICLE 01 // THE PROBLEM',
+                dialogue: panels.find((p) => p.id === activePanel)?.callout,
+              });
+            }}
+          >
             <img
               ref={parallaxImgRef}
               src={getAssetUrl('/assets/comic/chapter1.jpg')}
@@ -312,9 +348,28 @@ export const Chapter01Problem: React.FC = () => {
               loading="lazy"
             />
 
-            {/* Error Messages & Technical Annotations Discovering Sequentially */}
+            {/* Interactive Zoom Pill for Mobile & Desktop Discovery */}
+            <div
+              className="comic-zoom-pill"
+              onClick={(e) => {
+                e.stopPropagation();
+                openLightbox({
+                  src: getAssetUrl('/assets/comic/chapter1.jpg'),
+                  alt: 'Three-panel comic scene showing student struggling with code tutorials',
+                  title: `Chapter 01 // Panel 01-${activePanel}: ${panels.find((p) => p.id === activePanel)?.title}`,
+                  chapterTag: 'CHRONICLE 01 // THE PROBLEM',
+                  dialogue: panels.find((p) => p.id === activePanel)?.callout,
+                });
+              }}
+            >
+              <Maximize2 size={11} />
+              <span>TAP TO ZOOM</span>
+            </div>
+
+            {/* Error Messages & Technical Annotations Discovering Sequentially (Desktop Only overlay) */}
             <div
               ref={annotationsRef}
+              className="comic-desktop-only-annotation"
               style={{
                 position: 'absolute',
                 top: '55px',
@@ -364,54 +419,9 @@ export const Chapter01Problem: React.FC = () => {
               </div>
             </div>
 
-            {/* Selected Speech Bubble with Scale & Opacity Transition */}
+            {/* Interactive Panel Guides (Desktop & Tablet In-Artwork overlay) */}
             <div
-              ref={speechBubbleRef}
-              style={{
-                position: 'absolute',
-                bottom: '24px',
-                right: '24px',
-                maxWidth: '460px',
-                background: 'rgba(12, 12, 12, 0.92)',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid var(--gold-bright)',
-                borderRadius: '4px',
-                padding: '12px 18px',
-                boxShadow: '0 8px 30px rgba(0, 0, 0, 0.9), 0 0 15px rgba(212, 175, 55, 0.2)',
-                zIndex: 7,
-              }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.66rem',
-                  color: 'var(--gold-bright)',
-                  letterSpacing: '0.15em',
-                  marginBottom: '4px',
-                }}
-              >
-                <MessageSquare size={11} />
-                <span>ACTIVE REFLECTION // PANEL 01-{activePanel}</span>
-              </div>
-              <p
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.88rem',
-                  color: 'var(--text-ivory)',
-                  lineHeight: 1.45,
-                  margin: 0,
-                  fontStyle: 'italic',
-                }}
-              >
-                {panels.find((p) => p.id === activePanel)?.callout}
-              </p>
-            </div>
-
-            {/* Interactive Panel Guides (Desktop & Tablet) */}
-            <div
+              className="chapter01-panel-guides-desktop"
               style={{
                 position: 'absolute',
                 inset: 0,
@@ -429,7 +439,10 @@ export const Chapter01Problem: React.FC = () => {
                   }}
                 >
                   <button
-                    onClick={() => setActivePanel(panelKey)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActivePanel(panelKey);
+                    }}
                     style={{
                       pointerEvents: 'auto',
                       position: 'absolute',
@@ -456,6 +469,60 @@ export const Chapter01Problem: React.FC = () => {
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* Selected Speech Bubble with Scale & Opacity Transition */}
+          {/* On Desktop: Absoluted bottom-right inside frame; On Mobile: Stacks cleanly below image without obscuring art */}
+          <div
+            ref={speechBubbleRef}
+            className="comic-mobile-stack-card"
+            style={{
+              position: 'absolute',
+              bottom: '24px',
+              right: '24px',
+              maxWidth: '460px',
+              background: 'rgba(12, 12, 12, 0.94)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid var(--gold-bright)',
+              borderRadius: '4px',
+              padding: '12px 18px',
+              boxShadow: '0 8px 30px rgba(0, 0, 0, 0.9), 0 0 15px rgba(212, 175, 55, 0.2)',
+              zIndex: 7,
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '6px',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.66rem',
+                color: 'var(--gold-bright)',
+                letterSpacing: '0.15em',
+                marginBottom: '4px',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <MessageSquare size={11} />
+                <span>ACTIVE REFLECTION // PANEL 01-{activePanel}</span>
+              </div>
+              <span style={{ fontSize: '0.62rem', color: 'var(--text-muted)' }}>
+                {panels.find((p) => p.id === activePanel)?.tag}
+              </span>
+            </div>
+            <p
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.88rem',
+                color: 'var(--text-ivory)',
+                lineHeight: 1.45,
+                margin: 0,
+                fontStyle: 'italic',
+              }}
+            >
+              {panels.find((p) => p.id === activePanel)?.callout}
+            </p>
           </div>
         </div>
 
@@ -493,6 +560,17 @@ export const Chapter01Problem: React.FC = () => {
                 aspectRatio: '4/3',
                 marginBottom: '14px',
                 border: '1px solid var(--gold-border)',
+                cursor: 'pointer',
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+                openLightbox({
+                  src: getAssetUrl('/assets/comic/ch1_trap.jpg'),
+                  alt: 'Panel A: The Passive Consumption Trap',
+                  title: 'Panel 01-A: Infinite Tutorials',
+                  chapterTag: '01 // TRAP',
+                  dialogue: '“I watched 80 hours of tutorials... why can\'t I build anything from scratch?!” — ' + panels[0].callout,
+                });
               }}
             >
               <img
@@ -521,6 +599,10 @@ export const Chapter01Problem: React.FC = () => {
                 }}
               >
                 01 // TRAP
+              </div>
+              <div className="comic-zoom-pill" style={{ bottom: '8px', left: '8px', padding: '2px 7px', fontSize: '0.6rem' }}>
+                <Maximize2 size={10} />
+                <span>ZOOM</span>
               </div>
             </div>
 
@@ -593,6 +675,17 @@ export const Chapter01Problem: React.FC = () => {
                 aspectRatio: '4/3',
                 marginBottom: '14px',
                 border: '1px solid var(--gold-border)',
+                cursor: 'pointer',
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+                openLightbox({
+                  src: getAssetUrl('/assets/comic/ch1_logic.jpg'),
+                  alt: 'Panel B: The Logic Gap',
+                  title: 'Panel 01-B: The Real-World Gap',
+                  chapterTag: '02 // CRASH',
+                  dialogue: panels[1].callout,
+                });
               }}
             >
               <img
@@ -621,6 +714,10 @@ export const Chapter01Problem: React.FC = () => {
                 }}
               >
                 02 // CRASH
+              </div>
+              <div className="comic-zoom-pill" style={{ bottom: '8px', left: '8px', padding: '2px 7px', fontSize: '0.6rem' }}>
+                <Maximize2 size={10} />
+                <span>ZOOM</span>
               </div>
             </div>
 
@@ -693,6 +790,17 @@ export const Chapter01Problem: React.FC = () => {
                 aspectRatio: '4/3',
                 marginBottom: '14px',
                 border: '1px solid var(--gold-border)',
+                cursor: 'pointer',
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+                openLightbox({
+                  src: getAssetUrl('/assets/comic/ch1_proof.jpg'),
+                  alt: 'Panel C: The Proof Dilemma',
+                  title: 'Panel 01-C: The True Turning Point',
+                  chapterTag: '03 // DILEMMA',
+                  dialogue: panels[2].callout,
+                });
               }}
             >
               <img
@@ -721,6 +829,10 @@ export const Chapter01Problem: React.FC = () => {
                 }}
               >
                 03 // DILEMMA
+              </div>
+              <div className="comic-zoom-pill" style={{ bottom: '8px', left: '8px', padding: '2px 7px', fontSize: '0.6rem' }}>
+                <Maximize2 size={10} />
+                <span>ZOOM</span>
               </div>
             </div>
 

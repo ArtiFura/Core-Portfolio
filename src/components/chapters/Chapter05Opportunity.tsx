@@ -7,15 +7,18 @@ import {
   Building,
   Eye,
   EyeOff,
+  Maximize2,
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useParallax } from '../../motion/useScrollReveal';
 import { getAssetUrl } from '../../utils/asset';
+import { useComicLightbox } from '../common/ComicLightboxContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const Chapter05Opportunity: React.FC = () => {
+  const { openLightbox } = useComicLightbox();
   const [isAuthorized, setIsAuthorized] = useState(true);
   const sectionRef = useRef<HTMLElement | null>(null);
   const headerRef = useRef<HTMLDivElement | null>(null);
@@ -187,7 +190,19 @@ export const Chapter05Opportunity: React.FC = () => {
         >
 
 
-          <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
+          <div
+            className="comic-art-wrapper"
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              openLightbox({
+                src: getAssetUrl('/assets/comic/chapter5.jpg'),
+                alt: 'Split-panel scene showing student authorizing skill profile and recruiter viewing verified candidate evidence',
+                title: 'Chapter 05 // Potential to Opportunity',
+                chapterTag: 'CHRONICLE 05 // DIRECT PIPELINE',
+                dialogue: '“Students selectively unlock verified skill badges, while engineering leaders browse cryptographic proof directly with zero agency spam.”',
+              });
+            }}
+          >
             <img
               ref={parallaxImgRef}
               src={getAssetUrl('/assets/comic/chapter5.jpg')}
@@ -201,6 +216,22 @@ export const Chapter05Opportunity: React.FC = () => {
               }}
               loading="lazy"
             />
+            <div
+              className="comic-zoom-pill"
+              onClick={(e) => {
+                e.stopPropagation();
+                openLightbox({
+                  src: getAssetUrl('/assets/comic/chapter5.jpg'),
+                  alt: 'Split-panel scene showing student authorizing skill profile and recruiter viewing verified candidate evidence',
+                  title: 'Chapter 05 // Potential to Opportunity',
+                  chapterTag: 'CHRONICLE 05 // DIRECT PIPELINE',
+                  dialogue: '“Students selectively unlock verified skill badges, while engineering leaders browse cryptographic proof directly with zero agency spam.”',
+                });
+              }}
+            >
+              <Maximize2 size={11} />
+              <span>TAP TO ZOOM</span>
+            </div>
 
             {/* Glowing Golden Dividing Beam in the Center */}
             <div

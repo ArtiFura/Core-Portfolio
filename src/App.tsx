@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { HomePage } from './components/HomePage';
 import { CollegePage } from './components/CollegePage';
 import { CompaniesPage } from './components/CompaniesPage';
+import { ComicLightboxProvider } from './components/common/ComicLightboxContext';
+import { ComicLightboxModal } from './components/common/ComicLightboxModal';
 import { scrollToTarget } from './motion/lenisManager';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -109,29 +111,24 @@ export function App() {
     }, 200);
   };
 
-  if (currentPage === 'companies') {
-    return (
-      <CompaniesPage
-        onNavigatePage={handleNavigate}
-        onNavigateToStudents={(section) => handleNavigate('colleges', section)}
-      />
-    );
-  }
-
-  if (currentPage === 'colleges') {
-    return (
-      <CollegePage
-        onNavigatePage={handleNavigate}
-        onNavigateToCompanies={(section) => handleNavigate('companies', section)}
-        onNavigateToHome={() => handleNavigate('home')}
-      />
-    );
-  }
-
   return (
-    <HomePage
-      onNavigatePage={handleNavigate}
-    />
+    <ComicLightboxProvider>
+      {currentPage === 'companies' ? (
+        <CompaniesPage
+          onNavigatePage={handleNavigate}
+          onNavigateToStudents={(section) => handleNavigate('colleges', section)}
+        />
+      ) : currentPage === 'colleges' ? (
+        <CollegePage
+          onNavigatePage={handleNavigate}
+          onNavigateToCompanies={(section) => handleNavigate('companies', section)}
+          onNavigateToHome={() => handleNavigate('home')}
+        />
+      ) : (
+        <HomePage onNavigatePage={handleNavigate} />
+      )}
+      <ComicLightboxModal />
+    </ComicLightboxProvider>
   );
 }
 

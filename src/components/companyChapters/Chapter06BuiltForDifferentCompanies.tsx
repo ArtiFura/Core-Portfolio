@@ -4,10 +4,12 @@ import {
   Building2,
   Network,
   ArrowRight,
+  Maximize2,
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { getAssetUrl } from '../../utils/asset';
+import { useComicLightbox } from '../common/ComicLightboxContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -18,6 +20,7 @@ interface Chapter06BuiltForDifferentCompaniesProps {
 export const Chapter06BuiltForDifferentCompanies: React.FC<Chapter06BuiltForDifferentCompaniesProps> = ({
   onOpenCompanyModal,
 }) => {
+  const { openLightbox } = useComicLightbox();
   const sectionRef = useRef<HTMLElement | null>(null);
   const headerRef = useRef<HTMLDivElement | null>(null);
   const startupPanelRef = useRef<HTMLDivElement | null>(null);
@@ -186,20 +189,8 @@ export const Chapter06BuiltForDifferentCompanies: React.FC<Chapter06BuiltForDiff
             boxShadow: '0 25px 70px rgba(0, 0, 0, 0.95), 0 0 45px rgba(212, 175, 55, 0.18)',
           }}
         >
-          <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', overflow: 'hidden' }}>
-            <img
-              src={getAssetUrl('/assets/comic/company_ch6_multicompany.jpg')}
-              alt="Three-panel manga strip showing how startups, scale-ups, and enterprises all benefit from verified candidate proof"
-              style={{
-                width: '100%',
-                height: '106%',
-                objectFit: 'cover',
-                display: 'block',
-                transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
-              }}
-              loading="lazy"
-            />
-
+          {/* Header Bar */}
+          <div className="comic-mobile-header-bar">
             {/* Manga Caption Box */}
             <div
               className="comic-caption-box"
@@ -219,6 +210,77 @@ export const Chapter06BuiltForDifferentCompanies: React.FC<Chapter06BuiltForDiff
               }}
             >
               CHRONICLE 06 // TAILORED FOR EVERY SCALE
+            </div>
+
+            <div
+              style={{
+                position: 'absolute',
+                top: '18px',
+                right: '20px',
+                background: 'rgba(10, 10, 10, 0.9)',
+                border: '1px solid var(--gold-border-bright)',
+                padding: '6px 14px',
+                backdropFilter: 'blur(8px)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                zIndex: 6,
+                boxShadow: '0 6px 20px rgba(0, 0, 0, 0.8)',
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.68rem',
+                  color: 'var(--gold-bright)',
+                  letterSpacing: '0.14em',
+                }}
+              >
+                ECOSYSTEM // SEED TO ENTERPRISE
+              </span>
+            </div>
+          </div>
+
+          <div
+            className="comic-art-wrapper"
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              openLightbox({
+                src: getAssetUrl('/assets/comic/company_ch6_multicompany.jpg'),
+                alt: 'Three-panel manga strip showing how startups, scale-ups, and enterprises all benefit from verified candidate proof',
+                title: 'Chapter 06 // Built For Different Companies',
+                chapterTag: 'CHRONICLE 06 // SCALABILITY MATRIX',
+                dialogue: '“From fast seed-stage teams shipping high velocity MVPs to global enterprise leaders running deep architectural cohorts.”',
+              });
+            }}
+          >
+            <img
+              src={getAssetUrl('/assets/comic/company_ch6_multicompany.jpg')}
+              alt="Three-panel manga strip showing how startups, scale-ups, and enterprises all benefit from verified candidate proof"
+              style={{
+                width: '100%',
+                height: '106%',
+                objectFit: 'cover',
+                display: 'block',
+                transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+              }}
+              loading="lazy"
+            />
+            <div
+              className="comic-zoom-pill"
+              onClick={(e) => {
+                e.stopPropagation();
+                openLightbox({
+                  src: getAssetUrl('/assets/comic/company_ch6_multicompany.jpg'),
+                  alt: 'Three-panel manga strip showing how startups, scale-ups, and enterprises all benefit from verified candidate proof',
+                  title: 'Chapter 06 // Built For Different Companies',
+                  chapterTag: 'CHRONICLE 06 // SCALABILITY MATRIX',
+                  dialogue: '“From fast seed-stage teams shipping high velocity MVPs to global enterprise leaders running deep architectural cohorts.”',
+                });
+              }}
+            >
+              <Maximize2 size={13} />
+              <span>TAP TO EXPAND & ZOOM</span>
             </div>
           </div>
         </div>

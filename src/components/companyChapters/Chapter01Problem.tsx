@@ -5,15 +5,18 @@ import {
   HelpCircle,
   Clock,
   Filter,
+  Maximize2,
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useParallax } from '../../motion/useScrollReveal';
 import { getAssetUrl } from '../../utils/asset';
+import { useComicLightbox } from '../common/ComicLightboxContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const Chapter01Problem: React.FC = () => {
+  const { openLightbox } = useComicLightbox();
   const [selectedResumeIndex, setSelectedResumeIndex] = useState(0);
   const sectionRef = useRef<HTMLElement | null>(null);
   const headerRef = useRef<HTMLDivElement | null>(null);
@@ -280,8 +283,17 @@ export const Chapter01Problem: React.FC = () => {
 
           {/* Graphic Novel Artwork Container */}
           <div
-            className="comic-artwork-container"
-            style={{ position: 'relative', aspectRatio: '16/9', overflow: 'hidden' }}
+            className="comic-art-wrapper"
+            style={{ cursor: 'pointer' }}
+            onClick={() => {
+              openLightbox({
+                src: getAssetUrl('/assets/comic/company_ch1_problem.jpg'),
+                alt: 'Tired recruiter sitting before a desk and monitors overflowing with identical resumes',
+                title: 'Chapter 01 // The Problem',
+                chapterTag: 'CHRONICLE 01 // THE RESUME ILLUSION',
+                dialogue: '“Every applicant lists Python, React, and AWS. But when we ask how they debugged an edge-case deadlock, the conversation stalls.”',
+              });
+            }}
           >
             <img
               ref={parallaxImgRef}
@@ -297,6 +309,24 @@ export const Chapter01Problem: React.FC = () => {
               loading="lazy"
             />
 
+            {/* Tap to Zoom Indicator */}
+            <div
+              className="comic-zoom-pill"
+              onClick={(e) => {
+                e.stopPropagation();
+                openLightbox({
+                  src: getAssetUrl('/assets/comic/company_ch1_problem.jpg'),
+                  alt: 'Tired recruiter sitting before a desk and monitors overflowing with identical resumes',
+                  title: 'Chapter 01 // The Problem',
+                  chapterTag: 'CHRONICLE 01 // THE RESUME ILLUSION',
+                  dialogue: '“Every applicant lists Python, React, and AWS. But when we ask how they debugged an edge-case deadlock, the conversation stalls.”',
+                });
+              }}
+            >
+              <Maximize2 size={11} />
+              <span>TAP TO ZOOM</span>
+            </div>
+
             {/* Vignette Gradient */}
             <div
               style={{
@@ -308,9 +338,9 @@ export const Chapter01Problem: React.FC = () => {
               }}
             />
 
-            {/* Comic Speech Bubble */}
+            {/* Comic Speech Bubble (Desktop In-Artwork overlay) */}
             <div
-              className="comic-speech-bubble"
+              className="comic-speech-bubble comic-desktop-only-annotation"
               style={{
                 position: 'absolute',
                 top: '24px',
@@ -319,6 +349,7 @@ export const Chapter01Problem: React.FC = () => {
                 background: 'rgba(16, 16, 16, 0.95)',
                 border: '1px solid var(--gold-bright)',
                 boxShadow: '0 10px 30px rgba(0, 0, 0, 0.8)',
+                zIndex: 6,
               }}
             >
               <div
@@ -336,20 +367,23 @@ export const Chapter01Problem: React.FC = () => {
                 “Every applicant lists Python, React, and AWS. But when we ask how they debugged an edge-case deadlock, the conversation stalls.”
               </p>
             </div>
+          </div>
 
-            {/* Bottom Caption Overlay */}
-            <div
-              className="comic-caption-box"
-              style={{
-                position: 'absolute',
-                bottom: '20px',
-                left: '20px',
-                right: '20px',
-                maxWidth: '700px',
-                background: 'rgba(10, 10, 10, 0.92)',
-                backdropFilter: 'blur(8px)',
-              }}
-            >
+          {/* Bottom Caption Overlay: On PC bottom inside frame; On Mobile stacked cleanly below */}
+          <div
+            className="comic-caption-box comic-mobile-stack-card"
+            style={{
+              position: 'absolute',
+              bottom: '20px',
+              left: '20px',
+              right: '20px',
+              maxWidth: '700px',
+              background: 'rgba(10, 10, 10, 0.94)',
+              backdropFilter: 'blur(8px)',
+              zIndex: 7,
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
               <span
                 style={{
                   fontFamily: 'var(--font-mono)',
@@ -357,22 +391,24 @@ export const Chapter01Problem: React.FC = () => {
                   color: 'var(--gold-antique)',
                   letterSpacing: '0.2em',
                   display: 'block',
-                  marginBottom: '2px',
                 }}
               >
                 THE CORE BOTTLENECK
               </span>
-              <p
-                style={{
-                  margin: 0,
-                  fontSize: '0.88rem',
-                  color: 'var(--text-ivory)',
-                  lineHeight: 1.45,
-                }}
-              >
-                Traditional resumes summarize titles and courses, but offer no direct evidence of architectural intuition, code hygiene, or real problem-solving endurance.
-              </p>
+              <span style={{ fontSize: '0.62rem', color: 'var(--gold-bright)', fontFamily: 'var(--font-mono)' }}>
+                SIGNAL RATIO: 4%
+              </span>
             </div>
+            <p
+              style={{
+                margin: 0,
+                fontSize: '0.88rem',
+                color: 'var(--text-ivory)',
+                lineHeight: 1.45,
+              }}
+            >
+              Traditional resumes summarize titles and courses, but offer no direct evidence of architectural intuition, code hygiene, or real problem-solving endurance.
+            </p>
           </div>
         </div>
 

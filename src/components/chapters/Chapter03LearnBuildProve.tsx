@@ -3,14 +3,17 @@ import {
   Play,
   TerminalSquare,
   Sparkles,
+  Maximize2,
 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { getAssetUrl } from '../../utils/asset';
+import { useComicLightbox } from '../common/ComicLightboxContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const Chapter03LearnBuildProve: React.FC = () => {
+  const { openLightbox } = useComicLightbox();
   const [activeStage, setActiveStage] = useState<1 | 2 | 3>(2);
   const [isRunningTests, setIsRunningTests] = useState(false);
   const [testLogStep, setTestLogStep] = useState<number>(4);
@@ -203,8 +206,21 @@ export const Chapter03LearnBuildProve: React.FC = () => {
           >
 
 
-            {/* Artwork Frame with Category Hover Style */}
-            <div className="comic-artwork-container" style={{ position: 'relative', width: '100%', aspectRatio: '4/3', overflow: 'hidden' }}>
+            {/* Artwork Frame with Category Hover Style & Tap-to-Zoom */}
+            <div
+              className="comic-artwork-container"
+              style={{ position: 'relative', width: '100%', aspectRatio: '4/3', overflow: 'hidden' }}
+              onClick={(e) => {
+                e.stopPropagation();
+                openLightbox({
+                  src: getAssetUrl('/assets/comic/chapter3_learn.jpg'),
+                  alt: 'Stage 01: Concept Synthesis',
+                  title: 'Stage 01 // Concept Synthesis (Learn)',
+                  chapterTag: 'CHRONICLE 03 // STAGE 01',
+                  dialogue: '“Students engage with focused, production-grade programming lessons with zero passive video consumption.”',
+                });
+              }}
+            >
               <img
                 src={getAssetUrl('/assets/comic/chapter3_learn.jpg')}
                 alt="Student exploring a structured programming lesson"
@@ -218,6 +234,23 @@ export const Chapter03LearnBuildProve: React.FC = () => {
                 }}
                 loading="lazy"
               />
+              <div
+                className="comic-zoom-pill"
+                style={{ bottom: '8px', right: '8px', left: 'auto', padding: '3px 8px', fontSize: '0.62rem' }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openLightbox({
+                    src: getAssetUrl('/assets/comic/chapter3_learn.jpg'),
+                    alt: 'Stage 01: Concept Synthesis',
+                    title: 'Stage 01 // Concept Synthesis (Learn)',
+                    chapterTag: 'CHRONICLE 03 // STAGE 01',
+                    dialogue: '“Students engage with focused, production-grade programming lessons with zero passive video consumption.”',
+                  });
+                }}
+              >
+                <Maximize2 size={11} />
+                <span>ZOOM</span>
+              </div>
               <div
                 style={{
                   position: 'absolute',
@@ -336,8 +369,21 @@ export const Chapter03LearnBuildProve: React.FC = () => {
           >
 
 
-            {/* Artwork Frame with Category Hover Style */}
-            <div className="comic-artwork-container" style={{ position: 'relative', width: '100%', aspectRatio: '4/3', overflow: 'hidden' }}>
+            {/* Artwork Frame with Category Hover Style & Tap-to-Zoom */}
+            <div
+              className="comic-artwork-container"
+              style={{ position: 'relative', width: '100%', aspectRatio: '4/3', overflow: 'hidden' }}
+              onClick={(e) => {
+                e.stopPropagation();
+                openLightbox({
+                  src: getAssetUrl('/assets/comic/chapter3_practice.jpg'),
+                  alt: 'Stage 02: Real-Time Execution Sandbox',
+                  title: 'Stage 02 // Execution Sandbox (Build)',
+                  chapterTag: 'CHRONICLE 03 // STAGE 02',
+                  dialogue: '“Writing real logic against live containerized edge cases. The compiler benchmarks execution speed, memory footprint, and test passes.”',
+                });
+              }}
+            >
               <img
                 src={getAssetUrl('/assets/comic/chapter3_practice.jpg')}
                 alt="Student writing code and testing ideas"
@@ -351,6 +397,23 @@ export const Chapter03LearnBuildProve: React.FC = () => {
                 }}
                 loading="lazy"
               />
+              <div
+                className="comic-zoom-pill"
+                style={{ bottom: '8px', right: '8px', left: 'auto', padding: '3px 8px', fontSize: '0.62rem' }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openLightbox({
+                    src: getAssetUrl('/assets/comic/chapter3_practice.jpg'),
+                    alt: 'Stage 02: Real-Time Execution Sandbox',
+                    title: 'Stage 02 // Execution Sandbox (Build)',
+                    chapterTag: 'CHRONICLE 03 // STAGE 02',
+                    dialogue: '“Writing real logic against live containerized edge cases. The compiler benchmarks execution speed, memory footprint, and test passes.”',
+                  });
+                }}
+              >
+                <Maximize2 size={11} />
+                <span>ZOOM</span>
+              </div>
               <div
                 style={{
                   position: 'absolute',
@@ -485,8 +548,21 @@ export const Chapter03LearnBuildProve: React.FC = () => {
           >
 
 
-            {/* Artwork Frame with Category Hover Style */}
-            <div className="comic-artwork-container" style={{ position: 'relative', width: '100%', aspectRatio: '4/3', overflow: 'hidden' }}>
+            {/* Artwork Frame with Category Hover Style & Tap-to-Zoom */}
+            <div
+              className="comic-artwork-container"
+              style={{ position: 'relative', width: '100%', aspectRatio: '4/3', overflow: 'hidden' }}
+              onClick={(e) => {
+                e.stopPropagation();
+                openLightbox({
+                  src: getAssetUrl('/assets/comic/chapter3_prove.jpg'),
+                  alt: 'Stage 03: Cryptographic Proof Generation',
+                  title: 'Stage 03 // Cryptographic Proof (Improve & Attest)',
+                  chapterTag: 'CHRONICLE 03 // STAGE 03',
+                  dialogue: '“Transforming completed assessments into tamper-proof git commit timelines and verified milestone scorecards.”',
+                });
+              }}
+            >
               <img
                 src={getAssetUrl('/assets/comic/chapter3_prove.jpg')}
                 alt="Student completes assessment and reviews glowing golden verified skill scorecard"
@@ -500,6 +576,23 @@ export const Chapter03LearnBuildProve: React.FC = () => {
                 }}
                 loading="lazy"
               />
+              <div
+                className="comic-zoom-pill"
+                style={{ bottom: '8px', right: '8px', left: 'auto', padding: '3px 8px', fontSize: '0.62rem' }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openLightbox({
+                    src: getAssetUrl('/assets/comic/chapter3_prove.jpg'),
+                    alt: 'Stage 03: Cryptographic Proof Generation',
+                    title: 'Stage 03 // Cryptographic Proof (Improve & Attest)',
+                    chapterTag: 'CHRONICLE 03 // STAGE 03',
+                    dialogue: '“Transforming completed assessments into tamper-proof git commit timelines and verified milestone scorecards.”',
+                  });
+                }}
+              >
+                <Maximize2 size={11} />
+                <span>ZOOM</span>
+              </div>
               <div
                 style={{
                   position: 'absolute',
